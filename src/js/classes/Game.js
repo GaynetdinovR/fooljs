@@ -193,6 +193,18 @@ export default class Game {
     };
 
     /**
+     * Действия при перезапуске игры
+     */
+    reset = () => {
+        view.show('menu', 'flex');
+        view.hide('content', 'block');
+
+        setDeck(new Deck());
+        setBot(new Bot([], deck.getTrumpCard().suit));
+        setPlayer(new Player([], deck.getTrumpCard().suit));
+    };
+
+    /**
      * Возвращает данные из меню
      * @returns array
      */
@@ -229,11 +241,13 @@ export default class Game {
      * @returns []
      */
     formatCardsByCardsCount = (cardsCount) => {
+        const cardsAll = structuredClone(data.cardsAll);
+
         const count = {
-            12: () => data.cards.slice(10),
-            24: () => data.cards.slice(7),
-            36: () => data.cards.slice(4),
-            52: () => data.cards,
+            12: () => cardsAll.slice(10),
+            24: () => cardsAll.slice(7),
+            36: () => cardsAll.slice(4),
+            52: () => cardsAll,
         };
 
         return count[cardsCount]();

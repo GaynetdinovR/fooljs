@@ -68,6 +68,13 @@ const playerTableCardListener = () => {
 };
 
 /**
+ * Слушатель кнопки "reset"
+ */
+const resetBtnListener = () => {
+    game.reset();
+};
+
+/**
  * Слушатель кнопки "Начать"
  */
 const startBtnListener = () => {
@@ -75,5 +82,6 @@ const startBtnListener = () => {
 };
 
 document.querySelector('#game_start').addEventListener('click', startBtnListener);
+document.querySelector('#game_reset').addEventListener('click', resetBtnListener);
 
-export { delay, playerCardClickListener, playerTableCardListener, moveToFallBtnListener, raiseBtnListener, startBtnListener };
+export { delay, playerCardClickListener, playerTableCardListener, moveToFallBtnListener, raiseBtnListener, startBtnListener, resetBtnListener };
