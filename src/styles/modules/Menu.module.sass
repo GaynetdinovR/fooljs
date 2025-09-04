@@ -1,0 +1,76 @@
+@import "../variables.sass"
+@import "../mixins.sass"
+
+.animated_wrap
+  @include center
+  flex-direction: column
+
+.menu
+  box-shadow: -5px 5px 15px 5px rgba($grey-dark, 0.2)
+  position: fixed
+  top: 0
+  bottom: 0
+  right: 0
+  height: 100%
+  width: 150px
+  padding: 80px 20px
+  background-color: $grey
+  z-index: 1000
+
+  @include flex($jc: space-between, $ai: center, $d: column)
+
+  &__title
+    margin-bottom: 60px
+    @include font(26px, 700, $off-white)
+
+  &__start_btn
+    margin-top: 60px
+    border: 3px solid $blue
+    background-color: $blue
+    transition: 200ms
+    cursor: pointer
+    padding: 15px 100px
+    border-radius: 20px
+    @include font(17px, 700, $off-white)
+
+    &:hover
+      background-color: $grey
+
+  &__game_data
+    min-width: 405px
+    padding: 10px
+    @include grid(repeat(3, 1fr), 1fr 0.9fr, 20px)
+
+    & span:nth-child(odd)
+      justify-items: flex-start
+      text-align: left
+
+    & span:nth-child(even)
+      justify-items: flex-end
+      text-align: right
+
+    &_carousel_item,
+    &_span
+      @include center
+      @include font(16px, 600, $off-white)
+
+    &_name
+      @include font(17px, 700, $off-white)
+
+  &__reset_btn
+    margin-top: 50px
+    @include icon(70px)
+    @include center
+    @include transparent_btn
+    @include btn_hover
+
+  &__arrow_btn
+    width: 60px
+    height: 60px
+
+    @include center
+    @include transparent_btn
+    @include btn_hover
+    &_arrow
+      margin-right: 10px
+      @include arrow(right, 35px, $blue, 8px)

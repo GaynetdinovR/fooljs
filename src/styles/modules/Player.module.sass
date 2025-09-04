@@ -1,0 +1,94 @@
+@import "../variables.sass"
+@import "../mixins.sass"
+
+.player
+  &__controls
+    position: absolute
+    bottom: 15px
+    left: 50%
+
+    transform: translateX(-50%)
+
+    display: flex
+
+  &__raise,
+  &__move_to_fall,
+  &__end_move
+    background: transparent
+
+    border: 1px solid $black
+    border-radius: 8px
+
+    padding: 15px
+    margin: 0 10px
+
+    cursor: pointer
+    transition: 200ms
+
+    @include font($black, 700)
+
+    &:disabled
+      opacity: 0.5
+
+      cursor: default
+
+      &:hover
+        opacity: 0.5
+
+    &:hover
+      opacity: 0.5
+
+  &__cards
+    position: absolute
+    bottom: 80px
+
+    left: 50%
+    transform: translateX(-50%)
+
+    display: flex
+    align-items: flex-end
+    justify-content: flex-start
+
+    &:last-child
+      width: 100px
+
+  &__card
+    background: none
+    border: none
+
+    width: 20px
+
+    transition: 200ms
+    cursor: pointer
+
+    & img
+      width: 100px
+
+    &:not(.player__card_for_attack):hover
+      width: 60px
+
+    &:last-child
+      width: 100px
+
+      &:hover
+        width: 100px
+
+  &__card_for_attack
+    margin-bottom: 40px
+    width: 60px
+
+
+
+  &__card:disabled
+    filter: brightness(0.5)
+
+    &:hover
+      width: 100px
+
+  &__card_img
+    width: 100px
+    object-fit: contain
+
+@for $i from 1 through 54
+  .player__card:nth-child(#{$i})
+    z-index: $i

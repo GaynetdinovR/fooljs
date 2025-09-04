@@ -1,0 +1,1 @@
+export const PLAYERS = ['human', 'bot'] as const;

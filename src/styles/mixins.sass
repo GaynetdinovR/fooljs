@@ -1,0 +1,88 @@
+@import "./variables"
+
+@mixin font($s: 18px, $w: 500, $c: $black, $lh: 1.3)
+  font-family: $montserrat
+  font-weight: $w
+  font-size: $s
+  color: $c
+  line-height: $lh
+
+@mixin flex($jc: start, $ai: start, $d: row, $w: nowrap)
+  display: flex
+  justify-content: $jc
+  align-items: $ai
+  flex-direction: $d
+  flex-wrap: $w
+
+@mixin grid($rows: null, $columns: null, $gap: null)
+  display: grid
+  gap: $gap
+  grid-template-rows: $rows
+  grid-template-columns: $columns
+
+@mixin transparent_btn()
+  background: transparent
+  border: none
+
+@mixin icon($w)
+  max-width: $w
+  & img
+    width: 100%
+    object-fit: contain
+
+@mixin img($w)
+  max-width: $w
+  & img
+    width: 100%
+    height: 100%
+    object-fit: cover
+
+@mixin link_hover()
+  cursor: pointer
+  transition: 150ms
+  &:hover
+    opacity: 0.7
+  &:active
+    opacity: 0.7
+
+@mixin btn_hover()
+  cursor: pointer
+  transition: 200ms
+  &:hover
+    filter: brightness(0.95)
+  &:active
+    filter: brightness(0.95)
+
+@mixin center()
+  @include flex(center, center)
+
+
+@mixin arrow($direction: right, $size: 10px, $color: #000, $thickness: 2px)
+  display: inline-block
+  width: $size
+  height: $size
+  border: none
+  background: transparent
+
+  @if $direction == right
+    border-top: $thickness solid $color
+    border-right: $thickness solid $color
+    transform: rotate(45deg)
+
+
+  @else if $direction == left
+    border-top: $thickness solid $color
+    border-left: $thickness solid $color
+    transform: rotate(-45deg)
+
+
+  @else if $direction == up
+    border-top: $thickness solid $color
+    border-right: $thickness solid $color
+    transform: rotate(-45deg)
+
+
+  @else if $direction == down
+    border-bottom: $thickness solid $color
+    border-right: $thickness solid $color
+    transform: rotate(45deg)

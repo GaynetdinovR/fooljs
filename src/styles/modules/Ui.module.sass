@@ -1,0 +1,48 @@
+@import '../mixins.sass'
+
+.logo
+  @include icon(90px)
+
+.card
+  position: relative
+  z-index: 1000
+  padding: 0
+  cursor: pointer
+
+  @include transparent_btn
+
+  &:disabled
+    cursor: default
+
+  &__face
+    @include img(100px)
+
+.display
+  position: absolute
+  left: 0
+  right: 150px
+  top: 0
+  bottom: 0
+
+
+.setting_carousel
+  @include center()
+  gap: 16px
+  &__content
+    width: 100%
+    @include center()
+    position: relative
+  &__btn
+    @include font(18px, 600, $off-white)
+    @include transparent_btn
+    @include link_hover
+    flex-shrink: 0
+
+    &:disabled
+      cursor: default
+      color: $grey_light
+      &:hover
+        opacity: 1
+
+  &__value
+    position: absolute

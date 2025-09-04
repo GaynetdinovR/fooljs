@@ -1,0 +1,46 @@
+@import '../mixins.sass'
+@import '../variables.sass'
+
+.fall
+  &__cards
+    right: 150px
+    top: 200px
+    position: absolute
+
+  &__null_card
+    width: 100px
+    position: absolute
+    opacity: 0.5
+
+  &__null_card_img
+    max-width: 100%
+    object-fit: contain
+
+  &__card
+    width: 100px
+    position: absolute
+
+  &__card:first-child
+    margin-top: 0
+
+
+  &__card_img
+    max-width: 100%
+    object-fit: contain
+
+@for $i from 1 through 8
+  .fall__card:nth-child(#{$i})
+    margin-top: calc(20px * ($i - 1))
+
+.fall__count
+  position: absolute
+
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100px
+
+  top: 160px
+  right: 50px
+
+  @include font(20px, 500, $off-white)

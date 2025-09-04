@@ -1,0 +1,36 @@
+@import '../mixins.sass'
+@import '../variables.sass'
+
+.table
+  position: absolute
+  top: calc(50% - 115px)
+  left: 50%
+
+  transform: translateX(-50%)
+
+  @include center
+
+  &__card_pair
+    margin: 0 5px
+    width: 120px
+    position: relative
+
+  &__card_to_beat
+    top: 0
+    left: 0
+
+  &__card_to_defend
+    top: 20px
+    left: 20px
+
+  &__card_to_beat,
+  &__card_to_defend
+    position: absolute
+    width: 100px
+
+    border: none
+    background: none
+    padding: 0
+
+    & img
+      max-width: 100%

@@ -1,0 +1,30 @@
+@import './variables.sass'
+@import './mixins'
+
+body
+  background: radial-gradient(ellipse at center, $blue 30%, $blue-dark 90%)
+
+  width: 100vw
+  height: 100vh
+
+  overflow: hidden
+
+
+.error-fallback
+  width: 100%
+  height: 100%
+  position: fixed
+  @include flex(center, center, column)
+  @include font(16px, 500, $off-white)
+  & h2
+    margin-bottom: 20px
+    @include font(32px, 700, $off-white)
+
+  & button
+    padding: 15px 30px
+    @include font(16px, 500, $grey-dark)
+    background-color: $off-white
+    border-radius: 10px
+    border: none
+    @include link_hover
+    margin-top: 20px

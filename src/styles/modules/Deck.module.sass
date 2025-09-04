@@ -1,0 +1,42 @@
+@import '../mixins.sass'
+@import '../variables.sass'
+
+.deck
+  &__cards
+    position: absolute
+    left: 50px
+    top: 200px
+
+  &__card
+    width: 100px
+    position: absolute
+
+  &__card_img
+    max-width: 100%
+    object-fit: contain
+
+  &__trump_card
+    width: 100px
+    position: absolute
+    z-index: -1
+
+  &__trump_card_img
+    max-width: 100%
+    object-fit: contain
+
+@for $i from 1 through 8
+  .deck__card:nth-child(#{$i})
+    margin-top: 40px + (20px * ($i - 1))
+
+.deck__count
+  position: absolute
+
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100px
+
+  top: 160px
+  left: 50px
+
+  @include font(20px, 500, $off-white)
