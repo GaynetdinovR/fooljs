@@ -1,8 +1,10 @@
 # fooljs
 
-![Static Badge](https://img.shields.io/badge/status-in-process-yellow) ![Static Badge](https://img.shields.io/badge/progress-30%25-orange) ![Static Badge](https://img.shields.io/badge/pet_project-purple)
+![Static Badge](https://img.shields.io/badge/status-in-process-yellow) 
+![Static Badge](https://img.shields.io/badge/progress-30%25-orange)
+![Static Badge](https://img.shields.io/badge/pet_project-purple)
 
-** FoolJS — карточная игра с ИИ. Различные уровни сложности ИИ, настройки игры. 
+**FoolJS** — карточная игра с ИИ. Различные уровни сложности ИИ, настройки игры. 
 
 ## Содержание
 - [Стек технологий](#stack)
