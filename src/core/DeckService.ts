@@ -54,7 +54,7 @@ class DeckService implements IDeckService {
 		const color = suit[0] == 'C' || suit[0] == 'S' ? 'black' : 'red';
 		const power = this.values.indexOf(value) + 2;
 
-		return {
+		return <Card>{
 			id: this.getId(value, suit),
 			imgPath: this.getPath(value, suit),
 			name: `${value} ${suit}`,

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { ReactNode } from 'react';
 import styles from '@/styles/modules/Menu.module.sass';
 import { MENU_ANIMATION } from '@/components/Menu/Menu.tsx';
+import classNames from 'classnames';
 
 interface AnimatedSideProps {
 	isOpen: boolean,
@@ -16,7 +17,7 @@ const AnimatedSide = ({isOpen, children} : AnimatedSideProps) => {
             display: isOpen ? 'flex' : 'none',
             transition: { duration: MENU_ANIMATION.duration.menuOpening }
         },
-		className: styles.animated_wrap
+		className: classNames(styles.animated_wrap, styles.menu__content)
     }
 
 	return (

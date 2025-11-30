@@ -1,5 +1,5 @@
 import { ErrorInfo, ReactNode, useEffect, useState } from 'react';
-import logger from '@/utils/logger';
+import logger from '@/utils/log.ts';
 
 interface ErrorBoundaryProps {
 	children: ReactNode;

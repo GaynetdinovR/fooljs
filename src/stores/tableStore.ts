@@ -1,23 +1,32 @@
 import { create } from 'zustand/react';
 import type TableStoreType from '@/types/store/TableStoreType.ts';
 import Card from '@/ui/Card.tsx';
-import { formatCardToBeat } from '@/utils/utils.ts';
+import { formatAttackCard } from '@/utils/utils.ts';
 
 const INIT_STORE = {
-	table:[],
-}
+	table: [],
+};
 
 const useTableStore = create<TableStoreType>((set, get) => ({
 	...INIT_STORE,
 	updateTable: (table: Card[]) => set(() => ({ table: table })),
-	addCardToBeat: (card) => {
-		const formattedCard = formatCardToBeat(card);
+	addAttackCard: (card) => {
+		const formattedCard = formatAttackCard(card);
 
 		set((state) => ({
-			table: [...state.table, [formattedCard, null]]
+			table: [...state.table, [formattedCard, null]],
 		}));
 	},
-	clearAll: () => set(() => (INIT_STORE))
+	addDefendCard: (cardAttackId, card) => {
+		console.log();
+		set((state) => ({
+			table: state.table.map((pair) => {
+				if (pair[0].id === cardAttackId) return [{ ...pair[0], isBeaten: true }, card];
+				return pair;
+			}),
+		}));
+	},
+	clearAll: () => set(() => (INIT_STORE)),
 }));
 
 export const useTable = () => useTableStore(state => state.table);

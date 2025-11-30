@@ -9,7 +9,8 @@ interface TableState {
 
 interface TableActions {
 	updateTable: (table: TableCard[]) => void;
-	addCardToBeat: (card: TableCard) => void;
+	addAttackCard: (card: Card) => void;
+	addDefendCard: (attackCardId: string, card: Card) => void;
 	clearAll: () => void;
 }
 

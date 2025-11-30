@@ -1,15 +1,36 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useStatus } from '@/stores/gameStore.ts';
-import useGameController from '@/hooks/useGameController.ts';
+import useGameLogic from '@/hooks/useGameLogic.ts';
+import TableService from '@/core/TableService.ts';
+import { PlayerControlsContext } from '@/ui/PlayerControlsProvider.tsx';
+import { useTable } from '@/stores/tableStore.ts';
+import usePlayersStore from '@/stores/playersStore.ts';
+import { useDeck } from '@/stores/deckStore.ts';
+import useTurnLogic from '@/hooks/useTurnLogic.ts';
+import useGameData from '@/utils/hooks/useGameData.ts';
+import log from '@/utils/log.ts';
+import useGameConditions from '@/hooks/useGameConditions.ts';
 
-// Логический компонент, отвечающий за изменение статуса игры(ничего не рендерит)
+// Контроллер, отвечающий за ход игры
 const GameController = () => {
-	const status = useStatus();
-	const { setFirstTurn } = useGameController();
+	const { status, deck, human, bot, table } = useGameData();
+
+	const { endGameActions, startGameActions } = useGameLogic();
+	const { isGameEnd } = useGameConditions()
+
+	const errorCatcher = (fn) => log.withLogger(fn, 'GameController')
 
 	useEffect(() => {
-		if (status === 'dealt') setFirstTurn();
+		if (status === 'game-on') {
+			errorCatcher(startGameActions);
+		}
 	}, [status]);
+
+	useEffect(() => {
+		if (isGameEnd()) {
+			errorCatcher(endGameActions);
+		}
+	}, [table, bot, human, deck]);
 
 	return null;
 };

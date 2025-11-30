@@ -2,44 +2,57 @@ import styles from '@/styles/modules/Player.module.sass';
 import { useHumanHand } from '@/stores/playersStore.ts';
 import usePlayerActions from '@/hooks/usePlayerActions.ts';
 import Card from '@/ui/Card.tsx';
+import { useContext } from 'react';
+import { PlayerControlsContext } from '@/ui/PlayerControlsProvider.tsx';
+import CardService from '@/core/CardService.ts';
+import { useTrumpCard } from '@/stores/deckStore.ts';
+import { useStatus } from '@/stores/gameStore.ts';
+import classNames from 'classnames';
+import useGameActionsHandler from '@/hooks/useGameActionsHandler.ts';
 
 const Player = () => {
-	const {
-		handleCardClick,
-		handleRaise,
-		handleMoveToFall,
-		handleEndMove,
-		buttonsDisabled,
-	} = usePlayerActions();
-
+	const trumpCard = useTrumpCard();
+	const status = useStatus();
 	const hand = useHumanHand();
 
+	const { isRaiseDisabled, isMoveToFallDisabled, isEndMoveDisabled, chosenDefendCard } = useContext(PlayerControlsContext);
+	const { handleCardClick, handleRaiseClick, handleEndMoveClick, handleMoveToFallClick } = useGameActionsHandler();
+
+	if (!trumpCard) return null;
 
 	return (
 		<div className={styles.player}>
 			<div className={styles.player__cards}>
-				{hand.map(card=> (
-					<Card
-						key={card?.id}
-						isClickable={true}
-						className={styles.player__card}
-						onClick={() => handleCardClick(card)}
-						frontImage={card?.imgPath}
-					/>
-				))}
+				{CardService.sortCards(hand, trumpCard.suit).map(card => {
+					const shouldShowDefendStyle = status === 'bot-attack' && chosenDefendCard && card.id == chosenDefendCard.id;
+
+					const cardClass = classNames(
+						styles.player__card,
+						{ [styles.player__card_for_defend]: shouldShowDefendStyle },
+					);
+
+					return (
+						<Card
+							key={card.id}
+							isClickable={true}
+							className={cardClass}
+							onClick={() => handleCardClick(card)}
+							frontImage={card?.imgPath}
+						/>
+					);
+				})}
 			</div>
 
 			<div className={styles.player__controls}>
-				<button onClick={handleRaise} className={styles.player__raise}
-						disabled={buttonsDisabled.raise}>Поднять
+				<button onClick={handleRaiseClick} className={styles.player__raise}
+						disabled={isRaiseDisabled}>Поднять
+				</button>
+				<button onClick={handleEndMoveClick} className={styles.player__end_move}
+						disabled={isEndMoveDisabled}>Закончить ход
 				</button>
 
-				<button onClick={handleMoveToFall} className={styles.player__move_to_fall}
-						disabled={buttonsDisabled.moveToFall}>Бито
-				</button>
-
-				<button onClick={handleEndMove} className={styles.player__end_move}
-						disabled={buttonsDisabled.endMove}>Всё
+				<button onClick={handleMoveToFallClick} className={styles.player__move_to_fall}
+						disabled={isMoveToFallDisabled}>Бито
 				</button>
 			</div>
 		</div>

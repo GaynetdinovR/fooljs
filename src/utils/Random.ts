@@ -1,11 +1,13 @@
-import logger from '@/utils/logger.ts';
 import type IRandom from '@/types/utils/IRandom.ts';
+import log from '@/utils/log.ts';
 
 class Random implements IRandom {
-	static getArrayElem = <T>(array: T[]): T => {
-		if(array.length === 0) return logger.error('Array can\'t be empty');
+	static getArrayElem = <T>(array: T[]): T | null => {
+		return log.withLogger<T>(() => {
+			if(!array) throw Error(`Array doesn't exists: ${array}`);
 
-		return array[Math.floor(Math.random() * array.length)]
+			return array[Math.floor(Math.random() * array.length)]
+		}, 'random')
 	}
 }
 

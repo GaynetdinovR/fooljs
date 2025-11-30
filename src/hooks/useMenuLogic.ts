@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { MENU_ANIMATION } from '@/components/Menu/Menu.tsx';
 import { delay, formatToMs } from '@/utils/utils.ts';
 import useGameStore from '@/stores/gameStore.ts';
-import useReset from '@/hooks/useReset.ts';
+import useClearAll from '@/utils/hooks/useClearAll.ts';
 
 //TODO: Довести до ума
 
@@ -11,16 +11,22 @@ interface MenuLogicType {
 	isAnimationEnded: boolean,
 	handleStartBtn: () => void,
 	handleResetBtn: () => void,
-	toggleMenu: () => void
+	toggleMenu: () => void,
+	openStartMenu: () => void
 }
 
 // Отвечает за логику меню(синхронизирует анимации с действиями)
 export const useMenuLogic = (): MenuLogicType => {
 	const { updateStatus } = useGameStore();
-	const { resetAll } = useReset();
+	const { clearAll } = useClearAll();
 
 	const [isMenuOpen, setMenu] = useState<boolean>(true);
 	const [isAnimationEnded, setAnimationEnded] = useState<boolean>(false);
+
+	const openStartMenu = () => {
+		setMenu(true);
+		setAnimationEnded(false);
+	}
 
 	/**
 	 * Закрывает меню, обновляет статус
@@ -51,7 +57,7 @@ export const useMenuLogic = (): MenuLogicType => {
 
 		await delay(formatToMs(MENU_ANIMATION.duration.menuOpening));
 
-		resetAll();
+		clearAll();
 	};
 
 	const toggleMenu = () => setMenu(!isMenuOpen);
@@ -62,5 +68,6 @@ export const useMenuLogic = (): MenuLogicType => {
 		handleStartBtn,
 		handleResetBtn,
 		toggleMenu,
+		openStartMenu
 	};
 };

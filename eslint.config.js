@@ -33,6 +33,7 @@ export default tseslint.config(
             jsx: true,
           },
           project: './tsconfig.app.json',
+          tsconfigRootDir: '.'
         },
       },
       rules: {

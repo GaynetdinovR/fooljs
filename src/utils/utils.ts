@@ -1,6 +1,6 @@
 export const formatToMs = (seconds: number): number => seconds * 1000
 
-export const formatCardToBeat = (card) => {
+export const formatAttackCard = (card) => {
 	return {
 		...card,
 		isBeaten: false,

@@ -9,6 +9,10 @@ const INIT_STORE = {
 	},
 	status: 'in-menu',
 	turn: null,
+	stats: {
+		settings: null,
+		result: 'none',
+	}
 };
 
 const useGameStore = create<GameStoreType>((set) => ({
@@ -21,15 +25,21 @@ const useGameStore = create<GameStoreType>((set) => ({
 		set(() => ({
 			turn: newTurn,
 		})),
-	updateStatus: (newStatus) =>
+	updateStatus: (newStatus) => {
+		console.log(newStatus);
 		set(() => ({
-			status: newStatus,
-		})),
+			status: newStatus
+		}))
+	},
+	updateStats: (newStats) => {
+		set(() => ({ stats: newStats }))
+	},
 	clearAll: () => set(() => ({ ...INIT_STORE })),
 }));
 
 export const useSettings = () => useGameStore(state => state.settings);
 export const useTurn = () => useGameStore(state => state.turn);
 export const useStatus = () => useGameStore(state => state.status);
+export const useStats = () => useGameStore(state => state.stats);
 
 export default useGameStore;

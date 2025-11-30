@@ -9,12 +9,12 @@ const INIT_STORE = {
 
 const usePlayersStore = create<PlayersStoreType>((set, get) => ({
 	...INIT_STORE,
-	updateHumanHand: (hand) => set((state) => ({ human: hand })),
-	updateBotHand: (hand) => set((state) => ({ bot: hand })),
+	updateHumanHand: (hand) => set({ human: hand }),
+	updateBotHand: (hand) => set({ bot: hand }),
 	giveCardToPlayer: (player, card) => {
 		const currentHand = get()[player];
 
-		set({[player]: [...currentHand, ...[card]]});
+		set({[player]: [...currentHand, card]});
 	},
 	giveCardsToPlayer: (player, cards) => {
 		const currentHand = get()[player];

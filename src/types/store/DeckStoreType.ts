@@ -8,7 +8,8 @@ interface DeckState {
 interface DeckActions {
 	updateDeck: (deck: Card[]) => void;
 	updateTrumpCard: (trumpCard: Card | null) => void;
-	dealCard: () => Card;
+	takeCard: () => Card;
+	takeCards: (count: number) => Card[];
 	clearAll: () => void;
 }
 

@@ -1,68 +1,38 @@
-import { useStatus } from '@/stores/gameStore.ts';
-import useTableStore from '@/stores/tableStore.ts';
-import usePlayersStore from '@/stores/playersStore.ts';
 import useTableService from '@/hooks/useTableService.ts';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
+import useStoreActions from '@/utils/hooks/useStoreActions.ts';
+import type { Card } from '@/types/GameTypes.ts';
 
-type ButtonsDisabled = {
-	raise: boolean,
-	moveToFall: boolean,
-	endMove: boolean
+type PlayerActionsType = {
+	defend: (attackCard: Card, defendCard: Card) => void;
+	attack: (card: Card) => void;
 }
 
-const usePlayerActions = () => {
-	const status = useStatus();
+const usePlayerActions = (): PlayerActionsType => {
+	const { isPossibleToAttack, isPossibleToDefend } = useTableService();
+	const { attackWithCard, defendWithCard } = useStoreActions()
 
-	const [buttonsDisabled, setButtons] = useState<ButtonsDisabled>({
-		raise: true,
-		moveToFall: true,
-		endMove: true,
-	});
-
-	const { addCardToBeat } = useTableStore();
-	const { removeCardFromPlayer } = usePlayersStore();
-	const { isPossibleToAttack } = useTableService();
-
-	const defend = (card) => {
-
-	};
-
-	const attack = async (card) => {
-		if(isPossibleToAttack(card, 'bot')){
-			removeCardFromPlayer('human', card);
-
-			addCardToBeat(card);
-
-			setButtons(prev => ({...prev, endMove: false}))
+	// Метод защиты игрока
+	const defend = (attackCard, defendCard)=> {
+		if(isPossibleToDefend(attackCard, defendCard)){
+			defendWithCard(attackCard.id, defendCard, 'human');
 		} else {
 			toast.error(`Недопустимый ход!`)
 		}
 	};
 
-	const handleCardClick = (card) => {
-		if (!['human-attack', 'bot-attack'].includes(status)) return;
-
-		if (status == 'human-attack') return attack(card);
-		if (status == 'bot-attack') return defend(card);
-	};
-
-	const handleMoveToFall = () => {
-	};
-
-	const handleRaise = () => {
-	};
-
-	const handleEndMove = () => {
-		setButtons(prev => ({...prev, endMove: true}))
+	// Метод атаки игрока
+	const attack = (card) => {
+		if(isPossibleToAttack(card, 'bot')){
+			attackWithCard(card, 'human');
+		} else {
+			toast.error(`Недопустимый ход!`)
+		}
 	};
 
 	return {
-		handleCardClick,
-		handleRaise,
-		handleMoveToFall,
-		handleEndMove,
-		buttonsDisabled
+		attack,
+		defend
 	};
 };
 

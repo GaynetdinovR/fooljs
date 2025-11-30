@@ -1,12 +1,16 @@
 import GameController from '@/controllers/GameController.tsx';
 import NotificationsController from '@/controllers/NotificationsController.tsx';
-import DealingController from '@/components/Dealing/DealingController.tsx';
+import BotController from '@/controllers/BotController.tsx';
+import PlayerController from '@/controllers/PlayerController.tsx';
+import BotMemoryController from '@/controllers/BotMemoryController.tsx';
 
 const Controllers = () => {
 	return (<>
-        <GameController />
-        <NotificationsController />
-        <DealingController />
+		<GameController />
+		<NotificationsController />
+		<BotController />
+		<PlayerController />
+		<BotMemoryController />
 	</>);
 };
 

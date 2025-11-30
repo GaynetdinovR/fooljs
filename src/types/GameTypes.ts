@@ -1,10 +1,18 @@
 export type CardsCountType = 24 | 36 | 52 | 54;
-export type GameModeType = 'throw-in' | 'with passing' | 'combined';
-export type AiModeType = 'easy' | 'medium' | 'hard' | 'extreme';
+export type GameModeType = 'throw-in' | 'with passing';
+export type AiModeType = 'random' | 'fool' | 'easy' | 'medium' | 'hard' | 'extreme';
 
 export type GameDataOptions = 'gameMode' | 'aiMode' | 'cardsCount';
 
-export type GameStatus = 'in-menu' | 'game-on' | 'dealing' | 'dealt' | 'human-attack' | 'bot-attack' | 'game-over';
+export type GameStatus =
+	'in-menu' | 'game-on' |
+	'dealing' | 'dealt' |
+	'human-attack' | 'bot-attack' |
+	'game-over' | 'bot-thinking' |
+	'bot-raising' | 'human-raising' |
+	'move-to-fall';
+
+export type GameResults = 'human'| 'bot' | 'draw' | 'none'
 
 export type Players = 'bot' | 'human';
 

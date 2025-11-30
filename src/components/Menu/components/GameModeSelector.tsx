@@ -11,7 +11,7 @@ const GameModeSelector = ({ updateSettings, isGameOn }: GameModeSelectorProps) =
 	return (
 		<Selector<GameModeType>
 			isDisabled={isGameOn}
-			options={['throw-in', 'with passing', 'combined']}
+			options={['throw-in', 'with passing']}
 			initValue={'throw-in'}
 			formatValue={(value) => gameModeLocal[value]}
 			onChange={(value) => updateSettings({ gameMode: value })}

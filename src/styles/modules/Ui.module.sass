@@ -17,12 +17,27 @@
   &__face
     @include img(100px)
 
+.null_card
+  width: 100px
+  position: absolute
+  opacity: 0.5
+
+  &__img
+    max-width: 100%
+    object-fit: contain
+
 .display
   position: absolute
   left: 0
   right: 150px
   top: 0
   bottom: 0
+
+.vertical_divider
+  margin: 0 20px 0 40px
+  min-width: 1px
+  height: 100%
+  background-color: rgba($off-white, 0.9)
 
 
 .setting_carousel

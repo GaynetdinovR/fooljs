@@ -1,4 +1,6 @@
 export const aiModeLocal = {
+	'random': 'Случайная',
+	'fool': 'Очень легкая',
 	'easy': 'Легкая',
 	'medium': 'Средняя',
 	'hard': 'Сложная',
@@ -8,10 +10,16 @@ export const aiModeLocal = {
 export const gameModeLocal = {
 	'throw-in': 'Подкидной',
 	'with passing': 'Переводной',
-	'combined': 'Совмещенный'
 } as const;
 
 export const playersLocal = {
 	'bot': 'Бот',
 	'human': 'Игрок'
-} as const
+} as const;
+
+export const gameResultsLocal = {
+	'none': 'Ошибка',
+	'draw': 'Ничья',
+	'human': 'Игрок',
+	'bot': 'ИИ',
+}

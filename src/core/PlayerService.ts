@@ -2,6 +2,7 @@ import type IPlayerService from '@/types/core/IPlayerService.ts';
 import CardService from '@/core/CardService.ts';
 import type { Card, Players, Suits } from '@/types/GameTypes.ts';
 import Random from '@/utils/Random.ts';
+import { PLAYERS } from '@/data/constants.ts';
 
 class PlayerService implements IPlayerService {
 	/**
@@ -10,8 +11,7 @@ class PlayerService implements IPlayerService {
 	 * @param botHand
 	 * @param trumpSuit
 	 */
-	static getWhoseTurn = (humanHand: Card[], botHand: Card[], trumpSuit: Suits): Players => {
-		return 'human';
+	static findWhoseFirstTurn = (humanHand: Card[], botHand: Card[], trumpSuit: Suits): Players => {
 		const humanLowestTrump = CardService.findLowestSuit(humanHand, trumpSuit);
 		const botLowestTrump = CardService.findLowestSuit(botHand, trumpSuit);
 
@@ -22,7 +22,12 @@ class PlayerService implements IPlayerService {
 		if (humanLowestTrump) return 'human';
 		if (botLowestTrump) return 'bot';
 
-		return Random.getArrayElem<Players>(['bot', 'human']);
+		return Random.getArrayElem<Players>(PLAYERS);
+	}
+
+	// Возвращает другого игрока
+	static getAnotherPlayer = (currentPlayer: Players): Players => {
+		return (currentPlayer === 'bot') ? 'human' : 'bot'
 	}
 }
 

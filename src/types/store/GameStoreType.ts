@@ -1,4 +1,4 @@
-import type { GameSettings, GameStatus, Players } from '@/types/GameTypes.ts';
+import type { GameResults, GameSettings, GameStatus, Players } from '@/types/GameTypes.ts';
 
 interface GameState {
 	settings: GameSettings,
@@ -10,6 +10,7 @@ interface GameActions {
 	updateSettings: (newSettings: GameSettings) => void,
 	updateTurn: (newTurn: Players | null) => void,
 	updateStatus: (newStatus: GameStatus) => void,
+	updateStats: (newStats: { settings: GameSettings, result: GameResults }) => void,
 	clearAll: () => void;
 }
 

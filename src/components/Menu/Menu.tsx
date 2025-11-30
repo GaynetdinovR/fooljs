@@ -9,6 +9,9 @@ import { useSettings, useStatus } from '@/stores/gameStore.ts';
 import { gameModeLocal } from '@/data/localization.ts';
 import StartButton from '@/components/Menu/components/StartButton.tsx';
 import { useMenuLogic } from '@/hooks/useMenuLogic.ts';
+import Stats from '@/components/Menu/components/Stats.tsx';
+import VerticalDivider from '@/components/Menu/components/VerticalDivider.tsx';
+import { useEffect } from 'react';
 
 // TODO: Довести до вида
 export const MENU_ANIMATION = {
@@ -32,7 +35,14 @@ const Menu = () => {
 		handleStartBtn,
 		handleResetBtn,
 		toggleMenu,
+		openStartMenu
 	} = useMenuLogic();
+
+	useEffect(() => {
+		if(status === 'game-over') {
+			openStartMenu();
+		}
+	}, [status]);
 
 	const windowWidth = window.innerWidth;
 
@@ -42,6 +52,7 @@ const Menu = () => {
 
 	const isShouldShowStartMenu = !isAnimationEnded;
 	const isShouldShowGameOnMenu = !isShouldShowStartMenu;
+	const isShouldShowStats = status === 'game-over';
 
 	return (
 		<motion.aside
@@ -55,11 +66,15 @@ const Menu = () => {
 			<Logo />
 			<AnimatedSide isOpen={isMenuOpen}>
 				<h4 className={styles.menu__title}>Дурак: {gameModeLocal[settings.gameMode]}</h4>
-				<GameData isGameOn={isGameOn} />
-				{isShouldShowGameOnMenu && (<ResetGameButton onClick={handleResetBtn} />)}
-				{isShouldShowStartMenu && (<StartButton onClick={handleStartBtn} />)}
+				<div className={styles.menu__controls}>
+					<GameData isGameOn={isGameOn} />
+					{isShouldShowStats && (<VerticalDivider/>)}
+					{isShouldShowStats && <Stats />}
+				</div>
+				<> {isShouldShowGameOnMenu && (<ResetGameButton onClick={handleResetBtn} />)}
+				{isShouldShowStartMenu && (<StartButton onClick={handleStartBtn} />)} </>
 			</AnimatedSide>
-			{isShouldShowGameOnMenu && (<ToggleMenuButton isOpen={isMenuOpen} onClick={toggleMenu} />)}
+			<>{isShouldShowGameOnMenu && (<ToggleMenuButton isOpen={isMenuOpen} onClick={toggleMenu} />)}</>
 		</motion.aside>
 	);
 };

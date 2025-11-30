@@ -2,7 +2,7 @@
 @import "../mixins.sass"
 
 .animated_wrap
-  @include center
+  @include center()
   flex-direction: column
 
 .menu
@@ -18,6 +18,14 @@
   z-index: 1000
 
   @include flex($jc: space-between, $ai: center, $d: column)
+
+  &__content
+  &__stats
+    position: relative
+
+  &__controls
+    @include center()
+    flex-direction: row
 
   &__title
     margin-bottom: 60px
@@ -51,6 +59,7 @@
 
     &_carousel_item,
     &_span
+      text-align: center
       @include center
       @include font(16px, 600, $off-white)
 

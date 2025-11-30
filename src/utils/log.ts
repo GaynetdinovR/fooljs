@@ -1,8 +1,7 @@
-const logger = {
-	error: (message: string, error?: unknown, context?: object) => {
+const log = {
+	error: (message: string, error?: unknown) => {
 		console.error(`[ERROR] ${message}`, {
 			error,
-			context,
 			timestamp: new Date().toISOString()
 		});
 
@@ -15,7 +14,15 @@ const logger = {
 
 	info: (message: string, data?: object) => {
 		console.log(`[INFO] ${message}`, data);
+	},
+
+	withLogger: <T>(fn, context: string): T => {
+		try{
+			return fn()
+		} catch (error) {
+			log.error(`Error in ${context}: ${error}`)
+		}
 	}
 };
 
-export default logger;
+export default log;

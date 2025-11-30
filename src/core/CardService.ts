@@ -4,42 +4,25 @@ import type { Card, Suits } from '@/types/GameTypes.ts';
 class CardService implements ICard {
 
 	/**
-	 * Выбирает случайную карту из массива и возвращает ее вместе с отфильтрованным массивом
-	 * @param array
-	 * @returns [card, filteredArray]
+	 * Находит пересечения массивов карт, возвращает массив пересечений
+	 * @param firstCardsArray
+	 * @param secondCardsArray
 	 */
-	static giveRandomElemFromArray = (array: []): [any, any[]] => {
-		const arrayCopy = [...array];
-
-		const randomIndex = Math.floor(Math.random() * arrayCopy.length);
-		const [randomCard]: Card[] = arrayCopy.splice(randomIndex, 1);
-
-		return [randomCard, arrayCopy];
+	static findCardsIntersection = (firstCardsArray: Card[], secondCardsArray: Card[]): Card[] | [] => {
+		return firstCardsArray.filter(card1 =>
+			secondCardsArray.some(card2 => card1.id === card2.id),
+		);
 	};
 
 	/**
-	 * Выбирает случайные карты из массива и возвращает их вместе с отфильтрованным массивом
-	 * @param cardsCount - количество случайных карт для выбора
-	 * @param array
-	 * @returns [randomCards, filteredArray]
+	 * Находит разницу массивов карт, возвращает массив разницы от первого
+	 * @param firstCardsArray
+	 * @param secondCardsArray
 	 */
-	static giveRandomCardsFromArray = (cardsCount: number, array: Card[]): [Card[], Card[]] => {
-		if (cardsCount <= 0) return [[], [...array]];
-		if (cardsCount > array.length) {
-			throw new Error(`Requested ${cardsCount} cards but array has only ${array.length} cards`);
-		}
-
-		const randomCards: Card[] = [];
-		let arrayCopy: Card[] = [...array];
-
-		for (let i = 0; i < cardsCount; i++) {
-			const [card, newArray] = this.giveRandomCardFromArray(arrayCopy);
-
-			arrayCopy = [...newArray];
-			randomCards.push(card);
-		}
-
-		return [randomCards, arrayCopy];
+	static findCardsDifference = (firstCardsArray: Card[], secondCardsArray: Card[]): Card[] => {
+		return firstCardsArray.filter(card1 =>
+			!secondCardsArray.some(card2 => card1.id === card2.id),
+		);
 	};
 
 	/**
@@ -87,15 +70,43 @@ class CardService implements ICard {
 		return lowestSuitCard;
 	};
 
+	static getLowestNonTrump = (cards, trumpSuit) => {
+		const filtered = cards.filter(card => card.suit != trumpSuit);
+
+		let min = filtered[0];
+
+		for(const card of filtered){
+			if(min.power > card.power) min = card;
+		}
+
+		return min;
+	};
+
+	static findCardById = (cards, id) => {
+		return cards.filter(card => card.id === id)[0];
+	};
+
 	static getUniqCardValues = (cards: Card[]): number[] => {
 		const values = new Set<number>();
 
 		cards.forEach(card => {
-			if(card) values.add(card.power)
+			if (card) values.add(card.power);
 		});
 
 		return Array.from(values);
-	}
+	};
+
+	/**
+	 * Возвращает отсортированные карты (Сначала козырные по убыванию, затем остальные по убыванию)
+	 */
+	static sortCards = (cards: Card[], trumpSuit: Suits): Card[] => {
+		cards.sort((a, b) => b.power - a.power);
+
+		const trumpCards = cards.filter((card) => card.suit == trumpSuit);
+		const notTrumpCards = cards.filter((card) => card.suit != trumpSuit);
+
+		return [...trumpCards, ...notTrumpCards];
+	};
 }
 
 export default CardService;
