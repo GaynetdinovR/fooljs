@@ -11,7 +11,7 @@ const Bot = () => {
 				return (
 					<Card
 						key={card.id}
-						frontImage={card.imgPath}
+						//frontImage={card.imgPath}
 						isClickable={false}
 						className={styles.bot__card}
 					/>
