@@ -2,7 +2,7 @@ const log = {
 	error: (message: string, error?: unknown) => {
 		console.error(`[ERROR] ${message}`, {
 			error,
-			timestamp: new Date().toISOString()
+			timestamp: new Date().toISOString(),
 		});
 
 		return null;
@@ -17,12 +17,12 @@ const log = {
 	},
 
 	withLogger: <T>(fn, context: string): T => {
-		try{
-			return fn()
+		try {
+			return fn();
 		} catch (error) {
-			log.error(`Error in ${context}: ${error}`)
+			log.error(`Error in ${context}: ${error}`);
 		}
-	}
+	},
 };
 
 export default log;

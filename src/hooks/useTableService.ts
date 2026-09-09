@@ -8,27 +8,27 @@ import { useTrumpCard } from '@/stores/deckStore.ts';
 type TableServiceType = {
 	isPossibleToAttack: (card: TableCard, attackedPlayer: Players) => boolean;
 	isPossibleToDefend: (attackCard: TableCard, defendCard: Card) => boolean;
-}
+};
 
 const useTableService = (): TableServiceType => {
 	const table = useTable();
-	const trumpCard = useTrumpCard()
+	const trumpCard = useTrumpCard();
 	const players = usePlayersStore();
 
 	// Метод проверки возможности атаковать картой
 	const isPossibleToAttack = (card, attackedPlayer) => {
-		return TableService.isPossibleToAttack(card, table, players[attackedPlayer].length)
-	}
+		return TableService.isPossibleToAttack(card, table, players[attackedPlayer].length);
+	};
 
 	// Метод проверки возможности защититься картой
 	const isPossibleToDefend = (attackCard, defendCard) => {
 		return TableService.isPossibleToDefend(attackCard, defendCard, trumpCard.suit);
-	}
+	};
 
 	return {
 		isPossibleToAttack,
-		isPossibleToDefend
-	}
+		isPossibleToDefend,
+	};
 };
 
 export default useTableService;

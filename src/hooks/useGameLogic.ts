@@ -9,7 +9,6 @@ import useGameConditions from '@/hooks/useGameConditions.ts';
 import useClearAll from '@/utils/hooks/useClearAll.ts';
 import type { GameResults, Players } from '@/types/GameTypes.ts';
 import { GAME_STATUS } from '@/data/constants.ts';
-import useBotMemory from '@/hooks/useBotMemory.ts';
 
 type GameLogicType = {
 	startGameActions: () => void;
@@ -18,18 +17,13 @@ type GameLogicType = {
 	endGameActions: () => void;
 	endMoveActions: (attackingPlayer: Players) => void;
 	getGameResults: () => GameResults;
-}
+};
 
 const useGameLogic = (): GameLogicType => {
 	const { table, status, human, bot, settings } = useGameData();
 
-	const {
-		updateStatus,
-		moveToFall,
-		clearTable,
-		giveCardsToPlayer,
-		updateStats
-	} = useStoreActions();
+	const { updateStatus, moveToFall, clearTable, giveCardsToPlayer, updateStats } =
+		useStoreActions();
 	const { changeTurn, setFirstTurn } = useTurnLogic();
 	const { dealCards, firstDealing } = useDealingLogic();
 	const { initDeck } = useDeckInit();
@@ -53,7 +47,7 @@ const useGameLogic = (): GameLogicType => {
 
 	// Действия при окончании хода *setTimeout - костыль для уменьшения синхронности, чтобы контроллер успел словить статус*
 	const moveToFallActions = async () => {
-		updateStatus('move-to-fall')
+		updateStatus('move-to-fall');
 
 		setTimeout(() => {
 			moveToFall(table.flat());
@@ -63,7 +57,7 @@ const useGameLogic = (): GameLogicType => {
 			changeTurn();
 
 			dealCards();
-		}, 0)
+		}, 0);
 	};
 
 	// Действия при поднятии карт игроком
@@ -73,7 +67,10 @@ const useGameLogic = (): GameLogicType => {
 
 	// Действия, при конце подкидки карт(тому, кто поднимает)
 	const endMoveActions = (attackingPlayer: Players) => {
-		giveCardsToPlayer(PlayerService.getAnotherPlayer(attackingPlayer), TableService.getAllCards(table));
+		giveCardsToPlayer(
+			PlayerService.getAnotherPlayer(attackingPlayer),
+			TableService.getAllCards(table)
+		);
 
 		clearTable();
 
@@ -86,7 +83,7 @@ const useGameLogic = (): GameLogicType => {
 
 	// Действия при конце игры
 	const endGameActions = () => {
-		updateStats({ settings, result: getGameResults()} )
+		updateStats({ settings, result: getGameResults() });
 
 		updateStatus('game-over');
 
@@ -95,13 +92,13 @@ const useGameLogic = (): GameLogicType => {
 
 	// Возвращает победителя
 	const getGameResults = () => {
-		if(!isGameEnd()) return 'none';
-		if(human.length === 0 && bot.length === 0) return 'draw';
-		if(human.length === 0 && bot.length !== 0) return 'human';
-		if(human.length !== 0 && bot.length === 0) return 'bot';
+		if (!isGameEnd()) return 'none';
+		if (human.length === 0 && bot.length === 0) return 'draw';
+		if (human.length === 0 && bot.length !== 0) return 'human';
+		if (human.length !== 0 && bot.length === 0) return 'bot';
 
-		return 'none'
-	}
+		return 'none';
+	};
 
 	return {
 		startGameActions,
@@ -109,7 +106,7 @@ const useGameLogic = (): GameLogicType => {
 		endGameActions,
 		getGameResults,
 		endMoveActions,
-		raiseActions
+		raiseActions,
 	};
 };
 

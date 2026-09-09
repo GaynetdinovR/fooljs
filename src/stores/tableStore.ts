@@ -7,7 +7,7 @@ const INIT_STORE = {
 	table: [],
 };
 
-const useTableStore = create<TableStoreType>((set, get) => ({
+const useTableStore = create<TableStoreType>((set) => ({
 	...INIT_STORE,
 	updateTable: (table: Card[]) => set(() => ({ table: table })),
 	addAttackCard: (card) => {
@@ -26,8 +26,8 @@ const useTableStore = create<TableStoreType>((set, get) => ({
 			}),
 		}));
 	},
-	clearAll: () => set(() => (INIT_STORE)),
+	clearAll: () => set(() => INIT_STORE),
 }));
 
-export const useTable = () => useTableStore(state => state.table);
+export const useTable = () => useTableStore((state) => state.table);
 export default useTableStore;

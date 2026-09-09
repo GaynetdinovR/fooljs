@@ -1,5 +1,4 @@
 import useGameData from '@/utils/hooks/useGameData.ts';
-import { useMemo } from 'react';
 import TableService from '@/core/TableService.ts';
 import type { TableCardPair } from '@/types/store/TableStoreType.ts';
 
@@ -7,7 +6,7 @@ type GameConditionsType = {
 	isTableBeaten: (currentTable: TableCardPair[]) => boolean;
 	isTableEmpty: (currentTable: TableCardPair[]) => boolean;
 	isGameEnd: () => boolean;
-}
+};
 
 const useGameConditions = (): GameConditionsType => {
 	const { table, deck, bot, human, status } = useGameData();
@@ -25,7 +24,11 @@ const useGameConditions = (): GameConditionsType => {
 			isDeckEmpty: deck.length === 0,
 		};
 
-		return Object.values(conditions).every(condition => condition) && status !== 'in-menu' && status !== 'game-over';
+		return (
+			Object.values(conditions).every((condition) => condition) &&
+			status !== 'in-menu' &&
+			status !== 'game-over'
+		);
 	};
 
 	return {

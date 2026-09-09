@@ -23,12 +23,12 @@ class PlayerService implements IPlayerService {
 		if (botLowestTrump) return 'bot';
 
 		return Random.getArrayElem<Players>(PLAYERS);
-	}
+	};
 
 	// Возвращает другого игрока
 	static getAnotherPlayer = (currentPlayer: Players): Players => {
-		return (currentPlayer === 'bot') ? 'human' : 'bot'
-	}
+		return currentPlayer === 'bot' ? 'human' : 'bot';
+	};
 }
 
 export default PlayerService;

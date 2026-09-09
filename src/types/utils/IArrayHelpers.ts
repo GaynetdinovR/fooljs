@@ -1,5 +1,3 @@
-interface IArrayHelpers {
-
-};
+interface IArrayHelpers {}
 
 export default IArrayHelpers;

@@ -7,10 +7,7 @@ interface ErrorBoundaryProps {
 	onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
-const ErrorBoundary = ({
-						   children,
-						   onError,
-					   }: ErrorBoundaryProps) => {
+const ErrorBoundary = ({ children, onError }: ErrorBoundaryProps) => {
 	const [hasError, setHasError] = useState<boolean>(false);
 	const [error, setError] = useState<Error | null>(null);
 
@@ -45,9 +42,7 @@ const ErrorBoundary = ({
 			<div className="error-fallback">
 				<h2>Что-то пошло не так</h2>
 				{error && <p>{error.message}</p>}
-				<button onClick={() => setHasError(false)}>
-					Попробовать снова
-				</button>
+				<button onClick={() => setHasError(false)}>Попробовать снова</button>
 			</div>
 		);
 	}

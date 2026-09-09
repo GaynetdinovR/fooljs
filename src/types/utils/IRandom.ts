@@ -1,5 +1,3 @@
-interface IRandom {
-
-};
+interface IRandom {}
 
 export default IRandom;

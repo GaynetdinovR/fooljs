@@ -3,9 +3,9 @@ import { gameModeLocal } from '@/data/localization.ts';
 import Selector from '@/components/Menu/components/Selector.tsx';
 
 type GameModeSelectorProps = {
-	updateSettings: (newSettings: { gameMode: string }) => void,
-	isGameOn: boolean
-}
+	updateSettings: (newSettings: { gameMode: string }) => void;
+	isGameOn: boolean;
+};
 
 const GameModeSelector = ({ updateSettings, isGameOn }: GameModeSelectorProps) => {
 	return (

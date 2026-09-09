@@ -12,7 +12,7 @@ import Controllers from '@/utils/components/Controllers.tsx';
 function App() {
 	return (
 		<ErrorBoundary>
-			<Toaster position='top-right'/>
+			<Toaster position="top-right" />
 			<Controllers />
 			<Display>
 				<Player />

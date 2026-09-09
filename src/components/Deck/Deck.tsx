@@ -8,16 +8,18 @@ const Deck = () => {
 	const deck = useDeck();
 	const cardsCount = DeckService.getSmalledCardsCountForDeck(deck);
 
-	return (<>
-		<div className={styles.deck}>
-			<span className={styles.deck__count}>{deck.length}</span>
+	return (
+		<>
+			<div className={styles.deck}>
+				<span className={styles.deck__count}>{deck.length}</span>
 
-			<div className={styles.deck__cards}>
-				<TrumpCard />
-				<DeckCards cardsCount={cardsCount} />
+				<div className={styles.deck__cards}>
+					<TrumpCard />
+					<DeckCards cardsCount={cardsCount} />
+				</div>
 			</div>
-		</div>
-	</>);
+		</>
+	);
 };
 
 export default Deck;

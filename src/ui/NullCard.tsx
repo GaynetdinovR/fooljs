@@ -2,7 +2,7 @@ import styles from '@/styles/modules/Ui.module.sass';
 
 type NullCardProps = {
 	frontImage?: string | null;
-}
+};
 
 const NullCard = ({ frontImage = null }: NullCardProps) => {
 	const isFrontImgExists: boolean = !!frontImage;

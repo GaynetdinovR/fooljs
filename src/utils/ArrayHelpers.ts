@@ -1,5 +1,3 @@
-class ArrayHelpers implements IArrayHelpers {
-
-}
+class ArrayHelpers implements IArrayHelpers {}
 
 export default ArrayHelpers;

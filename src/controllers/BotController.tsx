@@ -20,12 +20,13 @@ const BotController = () => {
 		await fn();
 
 		setMoveEnd(true);
-	}
+	};
 
 	useEffect(() => {
-		if(!isMoveEnd) return;
+		if (!isMoveEnd) return;
 
-		if (status === 'human-attack' && !isTableEmpty(table) && !isTableBeaten(table)) wait(defend)
+		if (status === 'human-attack' && !isTableEmpty(table) && !isTableBeaten(table))
+			wait(defend);
 		if (status === 'bot-attack' || status === 'human-raising') wait(attack);
 	}, [status, table, isMoveEnd]);
 

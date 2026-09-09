@@ -7,13 +7,13 @@ const useBotMemory = () => {
 		const remainingCards = CardService.findCardsDifference(raisedCards, tableCards);
 
 		updateRaisedCards(remainingCards);
-	}
+	};
 
 	return {
 		updateRaisedCards,
 		addRaisedCards,
 		removeUsedRaisedCards,
-		addBeatenCards
+		addBeatenCards,
 	};
 };
 

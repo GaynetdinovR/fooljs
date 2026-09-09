@@ -4,7 +4,6 @@ import { delay } from '@/utils/utils.ts';
 import { formatToMs } from '../../allAnimationsStuff/utils.ts';
 import log from '@/utils/log.ts';
 import BotAttackService from '@/core/BotAttackService.ts';
-import TableService from '@/core/TableService.ts';
 import useGameLogic from '@/hooks/useGameLogic.ts';
 import toast from 'react-hot-toast';
 import useGameData from '@/utils/hooks/useGameData.ts';
@@ -14,7 +13,12 @@ import useGameConditions from '@/hooks/useGameConditions.ts';
 
 const useBotActions = () => {
 	const {
-		bot: hand, human: humanHand, trumpCard, table, settings: { aiMode }, status,
+		bot: hand,
+		human: humanHand,
+		trumpCard,
+		table,
+		settings: { aiMode },
+		status,
 	} = useGameData();
 
 	const { attackWithCard, defendWithCard } = useStoreActions();
@@ -26,7 +30,12 @@ const useBotActions = () => {
 		await delay(formatToMs(Random.getArrayElem(BOT_WAITING_TIMES)));
 
 		log.withLogger(() => {
-			const gameData = { hand, humanHandCount: humanHand.length, table, trumpSuit: trumpCard.suit };
+			const gameData = {
+				hand,
+				humanHandCount: humanHand.length,
+				table,
+				trumpSuit: trumpCard.suit,
+			};
 
 			const attackCard = BotAttackService.attack(aiMode, gameData);
 

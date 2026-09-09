@@ -1,6 +1,6 @@
 import useGameLogic from '@/hooks/useGameLogic.ts';
 import { useContext } from 'react';
-import { PlayerControlsContext } from '@/ui/PlayerControlsProvider.tsx';
+import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
 import { useStatus } from '@/stores/gameStore.ts';
 import usePlayerActions from '@/hooks/usePlayerActions.ts';
 import type { Card } from '@/types/GameTypes.ts';
@@ -11,7 +11,7 @@ type GameActionsHandlerType = {
 	handleMoveToFallClick: () => void;
 	handleEndMoveClick: () => void;
 	handleTableCardClick: (attackCard: Card, defendCard: Card) => void;
-}
+};
 
 // Хук объединяет действия игрока и методы логики, отключает кнопки
 const useGameActionsHandler = (): GameActionsHandlerType => {
@@ -19,7 +19,8 @@ const useGameActionsHandler = (): GameActionsHandlerType => {
 	const { attack, defend } = usePlayerActions();
 	const { moveToFallActions, raiseActions, endMoveActions } = useGameLogic();
 
-	const { setMoveToFallDisabled, setChosenDefendCard, setRaiseDisabled, setEndMoveDisabled } = useContext(PlayerControlsContext);
+	const { setMoveToFallDisabled, setChosenDefendCard, setRaiseDisabled, setEndMoveDisabled } =
+		useContext(PlayerControlsContext);
 
 	const handleCardClick = (card) => {
 		switch (status) {

@@ -2,15 +2,14 @@ import type { Players } from '@/types/GameTypes.ts';
 import PlayerService from '@/core/PlayerService.ts';
 import useGameData from '@/utils/hooks/useGameData.ts';
 import useStoreActions from '@/utils/hooks/useStoreActions.ts';
-import useDeckStore, { useTrumpCard } from '@/stores/deckStore.ts';
+import useDeckStore from '@/stores/deckStore.ts';
 import { GAME_STATUS } from '@/data/constants.ts';
 
 type TurnLogicType = {
 	changeTurn: () => void;
 	setFirstTurn: () => void;
 	setTurn: (turn: Players) => void;
-}
-
+};
 
 const useTurnLogic = (): TurnLogicType => {
 	const { human, bot, turn } = useGameData();
@@ -36,7 +35,7 @@ const useTurnLogic = (): TurnLogicType => {
 
 	// Смена хода
 	const changeTurn = () => {
-		if(!turn) throw Error('Turn not found!');
+		if (!turn) throw Error('Turn not found!');
 
 		const nextTurn = PlayerService.getAnotherPlayer(turn);
 
@@ -46,8 +45,8 @@ const useTurnLogic = (): TurnLogicType => {
 	return {
 		setTurn,
 		changeTurn,
-		setFirstTurn
-	}
+		setFirstTurn,
+	};
 };
 
 export default useTurnLogic;

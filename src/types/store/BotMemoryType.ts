@@ -2,12 +2,12 @@ import type { Card } from '@/types/GameTypes.ts';
 import type { TableCardPair } from '@/types/store/TableStoreType.ts';
 
 interface BotMemoryState {
-	trumpCards: Card[],
-	beatenCards: [ { [key: string]: string } ]
-	beatenWithTrumps: Card[],
-	raisedCards: Card[],
-	usedStrongCards: Card[],
-	humanCards: Card[]
+	trumpCards: Card[];
+	beatenCards: [{ [key: string]: string }];
+	beatenWithTrumps: Card[];
+	raisedCards: Card[];
+	usedStrongCards: Card[];
+	humanCards: Card[];
 }
 
 interface BotMemoryActions {
@@ -17,6 +17,6 @@ interface BotMemoryActions {
 	clearAll: () => void;
 }
 
-type BotMemoryType = BotMemoryState & BotMemoryActions
+type BotMemoryType = BotMemoryState & BotMemoryActions;
 
 export default BotMemoryType;

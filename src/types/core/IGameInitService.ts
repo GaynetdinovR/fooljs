@@ -1,5 +1,3 @@
-interface IGameInitService {
-
-};
+interface IGameInitService {}
 
 export default IGameInitService;

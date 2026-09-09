@@ -1,6 +1,6 @@
 import type { Card } from '@/types/GameTypes.ts';
 
-export type TableCard = Card & {isBeaten: boolean}
+export type TableCard = Card & { isBeaten: boolean };
 
 export type TableCardPair = [TableCard, TableCard];
 interface TableState {
@@ -14,6 +14,6 @@ interface TableActions {
 	clearAll: () => void;
 }
 
-type TableStoreType = TableState & TableActions
+type TableStoreType = TableState & TableActions;
 
 export default TableStoreType;

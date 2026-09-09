@@ -9,22 +9,25 @@ class GameService {
 	 * @param cardsCount
 	 * @param gameCardsCount
 	 */
-	static getGamePhase = (cardsCount: { deck: number, human: number, bot: number, fall: number }, gameCardsCount: number): string => {
+	static getGamePhase = (
+		cardsCount: { deck: number; human: number; bot: number; fall: number },
+		gameCardsCount: number
+	): string => {
 		const { deck, human, bot, fall } = cardsCount;
 
 		const oneThird = Math.floor(gameCardsCount / 3);
-		const twoThirds = Math.floor(2 * gameCardsCount / 3);
+		const twoThirds = Math.floor((2 * gameCardsCount) / 3);
 
 		if (deck > oneThird && fall < oneThird) return '1';
 
 		if (deck <= oneThird && deck > 4 && fall >= oneThird) return '2';
 
-		if ((human + bot) > twoThirds && fall < oneThird) return '2.5';
+		if (human + bot > twoThirds && fall < oneThird) return '2.5';
 
 		if (deck <= 4 && fall >= oneThird) return '3';
 
 		return '2';
-	}
+	};
 }
 
 export default GameService;

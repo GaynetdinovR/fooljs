@@ -2,15 +2,17 @@ import type ICard from '@/types/core/ICard.ts';
 import type { Card, Suits } from '@/types/GameTypes.ts';
 
 class CardService implements ICard {
-
 	/**
 	 * Находит пересечения массивов карт, возвращает массив пересечений
 	 * @param firstCardsArray
 	 * @param secondCardsArray
 	 */
-	static findCardsIntersection = (firstCardsArray: Card[], secondCardsArray: Card[]): Card[] | [] => {
-		return firstCardsArray.filter(card1 =>
-			secondCardsArray.some(card2 => card1.id === card2.id),
+	static findCardsIntersection = (
+		firstCardsArray: Card[],
+		secondCardsArray: Card[]
+	): Card[] | [] => {
+		return firstCardsArray.filter((card1) =>
+			secondCardsArray.some((card2) => card1.id === card2.id)
 		);
 	};
 
@@ -20,8 +22,8 @@ class CardService implements ICard {
 	 * @param secondCardsArray
 	 */
 	static findCardsDifference = (firstCardsArray: Card[], secondCardsArray: Card[]): Card[] => {
-		return firstCardsArray.filter(card1 =>
-			!secondCardsArray.some(card2 => card1.id === card2.id),
+		return firstCardsArray.filter(
+			(card1) => !secondCardsArray.some((card2) => card1.id === card2.id)
 		);
 	};
 
@@ -70,26 +72,48 @@ class CardService implements ICard {
 		return lowestSuitCard;
 	};
 
-	static getLowestNonTrump = (cards, trumpSuit) => {
-		const filtered = cards.filter(card => card.suit != trumpSuit);
+	static getLowestNonTrump = (cards: Card[], trumpSuit: Suits): Card | null => {
+		const nonTrumpCards = cards.filter(card => card.suit !== trumpSuit);
 
-		let min = filtered[0];
+		if (!nonTrumpCards) return null;
 
-		for(const card of filtered){
-			if(min.power > card.power) min = card;
+		let min = nonTrumpCards[0];
+
+		for (const card of nonTrumpCards){
+			if (card.power < min.power) min = card
 		}
 
-		return min;
+		return min
 	};
 
+	static getLowestCard = (cards, trumpSuit) => {
+		const nonTrumpMin = this.getLowestNonTrump(cards, trumpSuit);
+
+		if (nonTrumpMin) return nonTrumpMin
+
+		let min: Card = cards[0];
+
+		for (const card of cards){
+			if (card.power < min.power) min = card
+		}
+
+		return min
+	}
+
+	static getLowestCardById = (cards, ids, trumpSuit) : Card => {
+		const filtered = cards.filter(card => ids.includes(card.id))
+
+		return this.getLowestCard(filtered, trumpSuit)
+	}
+
 	static findCardById = (cards, id) => {
-		return cards.filter(card => card.id === id)[0];
+		return cards.filter((card) => card.id === id)[0];
 	};
 
 	static getUniqCardValues = (cards: Card[]): number[] => {
 		const values = new Set<number>();
 
-		cards.forEach(card => {
+		cards.forEach((card) => {
 			if (card) values.add(card.power);
 		});
 
@@ -102,8 +126,8 @@ class CardService implements ICard {
 	static sortCards = (cards: Card[], trumpSuit: Suits): Card[] => {
 		cards.sort((a, b) => b.power - a.power);
 
-		const trumpCards = cards.filter((card) => card.suit == trumpSuit);
-		const notTrumpCards = cards.filter((card) => card.suit != trumpSuit);
+		const trumpCards = cards.filter((card) => card.suit === trumpSuit);
+		const notTrumpCards = cards.filter((card) => card.suit !== trumpSuit);
 
 		return [...trumpCards, ...notTrumpCards];
 	};

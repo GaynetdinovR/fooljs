@@ -9,12 +9,11 @@ interface CardProps {
 }
 
 const Card = ({
-				  frontImage = '',
-				  isClickable = true,
-				  onClick = () => {},
-				  className = '',
-			  }: CardProps) => {
-
+	frontImage = '',
+	isClickable = true,
+	onClick = () => {},
+	className = '',
+}: CardProps) => {
 	const handleClick = () => {
 		if (isClickable) onClick();
 	};

@@ -43,7 +43,7 @@ const useDealingLogic = () => {
 
 	// Раздача карт поровну среди игроков
 	const dealCardsEvenly = () => {
-		if (deck.length % 2 == 0) {
+		if (deck.length % 2 === 0) {
 			return dealCardsToBothPlayers(deck.length / 2, deck.length / 2);
 		}
 
@@ -62,11 +62,12 @@ const useDealingLogic = () => {
 		let dealToBot = Math.max(0, RULES.fool.cardsPerPlayer - bot.length);
 		let dealToHuman = Math.max(0, RULES.fool.cardsPerPlayer - human.length);
 
-		if(deck.length + dealToBot + dealToHuman === 0) return;
+		if (deck.length + dealToBot + dealToHuman === 0) return;
 
-		if(dealToHuman === 0 && deck.length < dealToBot) dealToBot = deck.length;
-		if(dealToBot === 0 && deck.length < dealToHuman) dealToHuman = deck.length;
-		if(dealToBot != 0 && dealToHuman != 0 && deck.length < dealToHuman + dealToBot) return dealCardsEvenly();
+		if (dealToHuman === 0 && deck.length < dealToBot) dealToBot = deck.length;
+		if (dealToBot === 0 && deck.length < dealToHuman) dealToHuman = deck.length;
+		if (dealToBot !== 0 && dealToHuman !== 0 && deck.length < dealToHuman + dealToBot)
+			return dealCardsEvenly();
 
 		dealCardsToBothPlayers(dealToHuman, dealToBot);
 	};

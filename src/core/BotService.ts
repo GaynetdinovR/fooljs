@@ -1,7 +1,5 @@
 class BotService implements IBotService {
-	static getProbabilityThatPlayerGetCard = () => {
-
-	}
+	static getProbabilityThatPlayerGetCard = () => {};
 }
 
 export default BotService;

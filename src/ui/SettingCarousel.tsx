@@ -4,22 +4,22 @@ import classNames from 'classnames';
 import styles from '@/styles/modules/Ui.module.sass';
 
 type SettingCarouselProps<T> = {
-	className: string,
-	options: T[],
-	value: T,
-	disabled: boolean,
-	onChange: (value: T) => void,
+	className: string;
+	options: T[];
+	value: T;
+	disabled: boolean;
+	onChange: (value: T) => void;
 	formatValue?: (value: T) => string;
-}
+};
 
-const SettingCarousel = <T, >({
-								  className,
-								  options,
-								  value,
-								  disabled,
-								  onChange,
-								  formatValue = (value) => value,
-							  }: SettingCarouselProps<T>) => {
+const SettingCarousel = <T,>({
+	className,
+	options,
+	value,
+	disabled,
+	onChange,
+	formatValue = (value) => value,
+}: SettingCarouselProps<T>) => {
 	const [direction, setDirection] = useState<'left' | 'right'>('');
 
 	const handleChange = (newDirection: 'left' | 'right'): void => {
@@ -38,7 +38,11 @@ const SettingCarousel = <T, >({
 
 	return (
 		<div className={styles.setting_carousel}>
-			<button disabled={disabled} onClick={() => handleChange('left')} className={styles.setting_carousel__btn}>
+			<button
+				disabled={disabled}
+				onClick={() => handleChange('left')}
+				className={styles.setting_carousel__btn}
+			>
 				&lt;
 			</button>
 
@@ -71,7 +75,11 @@ const SettingCarousel = <T, >({
 				</AnimatePresence>
 			</div>
 
-			<button disabled={disabled} onClick={() => handleChange('right')} className={styles.setting_carousel__btn}>
+			<button
+				disabled={disabled}
+				onClick={() => handleChange('right')}
+				className={styles.setting_carousel__btn}
+			>
 				&gt;
 			</button>
 		</div>

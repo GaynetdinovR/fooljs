@@ -1,11 +1,10 @@
-import { createContext, ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import type { Card } from '@/types/GameTypes.ts';
+import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
 
 type PlayerControlsProviderProps = {
-	children: ReactNode,
-}
-
-export const PlayerControlsContext = createContext();
+	children: ReactNode;
+};
 
 const PlayerControlsProvider = ({ children }): PlayerControlsProviderProps => {
 	const [isRaiseDisabled, setRaiseDisabled] = useState<boolean>(true);
@@ -24,7 +23,7 @@ const PlayerControlsProvider = ({ children }): PlayerControlsProviderProps => {
 				isEndMoveDisabled,
 				setMoveToFallDisabled,
 				setChosenDefendCard,
-				chosenDefendCard
+				chosenDefendCard,
 			}}
 		>
 			{children}

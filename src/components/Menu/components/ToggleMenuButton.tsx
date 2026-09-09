@@ -1,6 +1,6 @@
 import styles from '@/styles/modules/Menu.module.sass';
-import { motion } from "framer-motion";
-import { MENU_ANIMATION } from '@/components/Menu/Menu.tsx';
+import { motion } from 'framer-motion';
+import { MENU_ANIMATION } from '@/data/constants.ts';
 
 interface ToggleMenuButtonProps {
 	isOpen: boolean;
@@ -16,9 +16,9 @@ const ToggleMenuButton = ({ isOpen, onClick }: ToggleMenuButtonProps) => {
 			}}
 			onClick={onClick}
 			className={styles.menu__arrow_btn}
-			aria-label={isOpen ? "Close menu" : "Open menu"}
+			aria-label={isOpen ? 'Close menu' : 'Open menu'}
 		>
-			<div className={styles.menu__arrow_btn_arrow}></div>
+			<div className={styles.menu__arrow_btn_arrow} />
 		</motion.button>
 	);
 };

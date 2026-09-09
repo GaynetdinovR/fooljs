@@ -14,11 +14,7 @@ const useStoreActions = () => {
 		clearAll: clearDeck,
 	} = useDeckStore();
 
-	const {
-		updateFall,
-		moveToFall,
-		clearAll: clearFall,
-	} = useFallStore();
+	const { updateFall, moveToFall, clearAll: clearFall } = useFallStore();
 
 	const {
 		updateSettings,
@@ -37,12 +33,7 @@ const useStoreActions = () => {
 		clearAll: clearPlayers,
 	} = usePlayersStore();
 
-	const {
-		updateTable,
-		addAttackCard,
-		addDefendCard,
-		clearAll: clearTable,
-	} = useTableStore();
+	const { updateTable, addAttackCard, addDefendCard, clearAll: clearTable } = useTableStore();
 
 	const attackWithCard = (card: Card, player: Players) => {
 		removeCardFromPlayer(player, card);
@@ -90,8 +81,8 @@ const useStoreActions = () => {
 
 		// Complex actions
 		attackWithCard,
-		defendWithCard
-	}
+		defendWithCard,
+	};
 };
 
 export default useStoreActions;

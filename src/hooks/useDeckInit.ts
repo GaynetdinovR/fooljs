@@ -14,15 +14,15 @@ const useDeckInit = (): { initDeck: () => void } => {
 
 		const deck = deckCore.bundleDeck();
 		const shuffledDeck = deckCore.shuffleDeck(deck);
-		const trumpCard = shuffledDeck[shuffledDeck.length - 1]
+		const trumpCard = shuffledDeck[shuffledDeck.length - 1];
 
 		updateDeck(shuffledDeck);
 		updateTrumpCard(trumpCard);
-	}
+	};
 
 	return {
-		initDeck
-	}
+		initDeck,
+	};
 };
 
 export default useDeckInit;

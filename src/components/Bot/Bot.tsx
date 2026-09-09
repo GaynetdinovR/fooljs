@@ -7,9 +7,14 @@ const Bot = () => {
 
 	return (
 		<div className={styles.bot}>
-			{hand.map(card => {
+			{hand.map((card) => {
 				return (
-					<Card key={card.id} frontImage={card.imgPath} isClickable={false} className={styles.bot__card} />
+					<Card
+						key={card.id}
+						frontImage={card.imgPath}
+						isClickable={false}
+						className={styles.bot__card}
+					/>
 				);
 			})}
 		</div>

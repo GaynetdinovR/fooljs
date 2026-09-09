@@ -10,7 +10,7 @@ const useFallStore = create<FallStoreType>((set) => ({
 	...INIT_STORE,
 	updateFall: (fall: Card[]) => set(() => ({ fall: fall })),
 	moveToFall: (cards: Card[]) => set((state) => ({ fall: [...state.fall, ...cards] })),
-	clearAll: () => set(() => (INIT_STORE)),
+	clearAll: () => set(() => INIT_STORE),
 }));
-export const useFall = () => useFallStore(state => state.fall);
+export const useFall = () => useFallStore((state) => state.fall);
 export default useFallStore;

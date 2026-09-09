@@ -10,7 +10,7 @@ const TrumpCard = () => {
 	const isDeckEmpty = deck.length === 0;
 
 	if (isTrumpCardNotExists) return;
-	if (isDeckEmpty) return (<NullCard frontImage={trumpCard.imgPath} />);
+	if (isDeckEmpty) return <NullCard frontImage={trumpCard.imgPath} />;
 
 	return (
 		<Card

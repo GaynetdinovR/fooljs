@@ -16,7 +16,7 @@ class BotAttackService implements IBotAttackService {
 			default:
 				return this.foolAttack(gameData);
 		}
-	}
+	};
 
 	private static findPossibleAttackMoves = (hand, table, humanHandCount) => {
 		const possibleMoves: Card[] = [];
@@ -28,23 +28,23 @@ class BotAttackService implements IBotAttackService {
 		}
 
 		return possibleMoves;
-	}
+	};
 
 	private static foolAttack = ({ hand, table, humanHandCount }) => {
 		const possibleMoves = this.findPossibleAttackMoves(hand, table, humanHandCount);
 
-		if(!possibleMoves) return null
+		if (!possibleMoves) return null;
 
 		return Random.getArrayElem(possibleMoves);
-	}
+	};
 
-	private static easyAttack = ({ hand, table, humanHandCount, trumpSuit }): Card | null  => {
+	private static easyAttack = ({ hand, table, humanHandCount, trumpSuit }): Card | null => {
 		const possibleMoves = this.findPossibleAttackMoves(hand, table, humanHandCount);
 
-		if(!possibleMoves) return null
+		if (!possibleMoves) return null;
 
 		return CardService.getLowestNonTrump(possibleMoves, trumpSuit);
-	}
+	};
 
 	//private static mediumAttack = ({ hand, table, humanHandCount }): Card | null  => {}
 }

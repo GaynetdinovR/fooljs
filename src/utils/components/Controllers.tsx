@@ -5,13 +5,15 @@ import PlayerController from '@/controllers/PlayerController.tsx';
 import BotMemoryController from '@/controllers/BotMemoryController.tsx';
 
 const Controllers = () => {
-	return (<>
-		<GameController />
-		<NotificationsController />
-		<BotController />
-		<PlayerController />
-		<BotMemoryController />
-	</>);
+	return (
+		<>
+			<GameController />
+			<NotificationsController />
+			<BotController />
+			<PlayerController />
+			<BotMemoryController />
+		</>
+	);
 };
 
 export default Controllers;

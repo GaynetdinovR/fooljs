@@ -1,9 +1,7 @@
-import styles from '@/styles/modules/Ui.module.sass'
+import styles from '@/styles/modules/Ui.module.sass';
 
 const VerticalDivider = () => {
-	return (
-		<div className={styles.vertical_divider}></div>
-	);
+	return <div className={styles.vertical_divider} />;
 };
 
 export default VerticalDivider;

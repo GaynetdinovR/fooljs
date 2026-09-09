@@ -13,6 +13,6 @@ interface DeckActions {
 	clearAll: () => void;
 }
 
-type DeckStoreType = DeckState & DeckActions
+type DeckStoreType = DeckState & DeckActions;
 
 export default DeckStoreType;

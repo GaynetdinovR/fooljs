@@ -3,9 +3,9 @@ import { aiModeLocal } from '@/data/localization.ts';
 import Selector from '@/components/Menu/components/Selector.tsx';
 
 type AiModeSelectorProps = {
-	updateSettings: (newSettings: { aiMode: string }) => void,
-	isGameOn: boolean
-}
+	updateSettings: (newSettings: { aiMode: string }) => void;
+	isGameOn: boolean;
+};
 
 const AiModeSelector = ({ updateSettings, isGameOn }: AiModeSelectorProps) => {
 	return (

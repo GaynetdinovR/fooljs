@@ -1,7 +1,7 @@
 import type { Card } from '@/types/GameTypes.ts';
 
 interface FallState {
-	fall: Card[]
+	fall: Card[];
 }
 
 interface FallActions {
@@ -10,6 +10,6 @@ interface FallActions {
 	moveToFall: (cards: Card[]) => void;
 }
 
-type FallStoreType = FallState & FallActions
+type FallStoreType = FallState & FallActions;
 
 export default FallStoreType;

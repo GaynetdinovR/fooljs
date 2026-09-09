@@ -5,22 +5,22 @@ import useBotMemory from '@/hooks/useBotMemory.ts';
 import TableService from '@/core/TableService.ts';
 
 const BotMemoryController = () => {
-    const table = useTable();
-    const status = useStatus();
-    const { addRaisedCards, removeUsedRaisedCards, addBeatenCards } = useBotMemory();
+	const table = useTable();
+	const status = useStatus();
+	const { addRaisedCards, removeUsedRaisedCards, addBeatenCards } = useBotMemory();
 
-    const tableCards = TableService.getAllCards(table);
+	const tableCards = TableService.getAllCards(table);
 
-    const onMoveToFall = () => {
-        removeUsedRaisedCards(tableCards);
+	const onMoveToFall = () => {
+		removeUsedRaisedCards(tableCards);
 
-        addBeatenCards(table);
-    }
+		addBeatenCards(table);
+	};
 
-    useEffect(() => {
-        if(status === 'human-raising') addRaisedCards(tableCards)
-        if(status === 'move-to-fall') onMoveToFall()
-    }, [status, table]);
+	useEffect(() => {
+		if (status === 'human-raising') addRaisedCards(tableCards);
+		if (status === 'move-to-fall') onMoveToFall();
+	}, [status, table]);
 
 	return null;
 };

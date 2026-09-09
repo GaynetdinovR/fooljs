@@ -35,7 +35,6 @@ class DeckService implements IDeckService {
 		}
 	};
 
-
 	// Возвращает уникальный id карты
 	private getId = (value: string, suit: string): string => {
 		const valuePrefix = value === '10' ? '10' : value[0];
@@ -51,7 +50,7 @@ class DeckService implements IDeckService {
 
 	// Возвращает собранный объект карты
 	private getCardInfo = (value: string, suit: string): Card => {
-		const color = suit[0] == 'C' || suit[0] == 'S' ? 'black' : 'red';
+		const color = suit[0] === 'C' || suit[0] === 'S' ? 'black' : 'red';
 		const power = this.values.indexOf(value) + 2;
 
 		return <Card>{
@@ -107,7 +106,7 @@ class DeckService implements IDeckService {
 
 	// Возвращает уменьшенное количество карт, которые нужно показать в бито
 	static getSmalledCardsCountForFall = (cardsCount) => {
-		if (cardsCount.length == 0) return 0;
+		if (cardsCount.length === 0) return 0;
 
 		return Math.floor(cardsCount.length / 7) + 1;
 	};

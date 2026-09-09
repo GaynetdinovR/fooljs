@@ -1,30 +1,26 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
 import styles from '@/styles/modules/Menu.module.sass';
-import { MENU_ANIMATION } from '@/components/Menu/Menu.tsx';
+import { MENU_ANIMATION } from '@/data/constants.ts';
 import classNames from 'classnames';
 
 interface AnimatedSideProps {
-	isOpen: boolean,
-	children?: ReactNode,
+	isOpen: boolean;
+	children?: ReactNode;
 }
 
-const AnimatedSide = ({isOpen, children} : AnimatedSideProps) => {
-    const options = {
-        initial: { x: 0 },
-        animate: {
-            x: isOpen ? 0 : MENU_ANIMATION.width.open,
-            display: isOpen ? 'flex' : 'none',
-            transition: { duration: MENU_ANIMATION.duration.menuOpening }
-        },
-		className: classNames(styles.animated_wrap, styles.menu__content)
-    }
+const AnimatedSide = ({ isOpen, children }: AnimatedSideProps) => {
+	const options = {
+		initial: { x: 0 },
+		animate: {
+			x: isOpen ? 0 : MENU_ANIMATION.width.open,
+			display: isOpen ? 'flex' : 'none',
+			transition: { duration: MENU_ANIMATION.duration.menuOpening },
+		},
+		className: classNames(styles.animated_wrap, styles.menu__content),
+	};
 
-	return (
-        <motion.div {...options}>
-			{children}
-		</motion.div>
-	);
+	return <motion.div {...options}>{children}</motion.div>;
 };
 
 export default AnimatedSide;

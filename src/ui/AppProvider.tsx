@@ -1,19 +1,12 @@
-import { createContext, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { AppContext } from '@/ui/AppContext.tsx';
 
 type AppProviderProps = {
-    children: ReactNode,
-}
-
-export const AppContext = createContext();
+	children: ReactNode;
+};
 
 const AppProvider = ({ children }: AppProviderProps) => {
-	return (
-        <AppContext.Provider
-            value={{}}
-        >
-            {children}
-        </AppContext.Provider>
-	);
+	return <AppContext.Provider value={{}}>{children}</AppContext.Provider>;
 };
 
 export default AppProvider;

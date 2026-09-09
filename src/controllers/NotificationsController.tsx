@@ -8,14 +8,14 @@ const NotificationsController = () => {
 	const [toastId, setToastId] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
-		if(status == 'dealing') setToastId(toast.loading('Раздача карт'));
-		if(status == 'dealt') {
+		if (status === 'dealing') setToastId(toast.loading('Раздача карт'));
+		if (status === 'dealt') {
 			toast.remove(toastId);
 			toast.success('Игра началась!');
 		}
-		if(status == 'human-attack') toast('Вы атакуете!')
-		if(status == 'bot-attack') toast('ИИ атакует!')
-	}, [status]);
+		if (status === 'human-attack') toast('Вы атакуете!');
+		if (status === 'bot-attack') toast('ИИ атакует!');
+	}, [status, toastId]);
 
 	return null;
 };
