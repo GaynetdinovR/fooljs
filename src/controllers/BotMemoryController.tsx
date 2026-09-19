@@ -1,12 +1,20 @@
 import { useEffect } from 'react';
+
 import { useTable } from '@/stores/tableStore.ts';
 import { useStatus } from '@/stores/gameStore.ts';
 import useBotMemory from '@/hooks/useBotMemory.ts';
+
 import TableService from '@/core/TableService.ts';
 
+import type { TableCardPair } from '@/types/store/TableStoreType.ts';
+import { GameStatus } from '@/types/GameTypes.ts';
+
+/**
+ * Контроллер памяти бота
+ */
 const BotMemoryController = () => {
-	const table = useTable();
-	const status = useStatus();
+	const table: TableCardPair[] = useTable();
+	const status: GameStatus = useStatus();
 	const { addRaisedCards, removeUsedRaisedCards, addBeatenCards } = useBotMemory();
 
 	const tableCards = TableService.getAllCards(table);

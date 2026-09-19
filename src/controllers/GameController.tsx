@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
-import useGameLogic from '@/hooks/useGameLogic.ts';
-import useGameData from '@/utils/hooks/useGameData.ts';
+
 import log from '@/utils/log.ts';
+import useGameData from '@/utils/hooks/useGameData.ts';
+
+import useGameLogic from '@/hooks/useGameLogic.ts';
 import useGameConditions from '@/hooks/useGameConditions.ts';
 
-// Контроллер, отвечающий за ход игры
+/**
+ * Контроллер, отвечающий за ход игры
+ */
 const GameController = () => {
 	const { status, deck, human, bot, table } = useGameData();
 

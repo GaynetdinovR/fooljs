@@ -10,7 +10,7 @@ interface BotMemoryState {
 	humanCards: Card[];
 }
 
-interface BotMemoryActions {
+export interface BotMemoryActions {
 	updateRaisedCards: (raisedCards: Card[]) => void;
 	addRaisedCards: (raisedCards: Card[]) => void;
 	addBeatenCards: (beatenCards: TableCardPair[]) => void;

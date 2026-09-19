@@ -6,12 +6,12 @@ type PlayerControlsProviderProps = {
 	children: ReactNode;
 };
 
-const PlayerControlsProvider = ({ children }): PlayerControlsProviderProps => {
+const PlayerControlsProvider = ({ children } : PlayerControlsProviderProps) => {
 	const [isRaiseDisabled, setRaiseDisabled] = useState<boolean>(true);
 	const [isMoveToFallDisabled, setMoveToFallDisabled] = useState<boolean>(true);
 	const [isEndMoveDisabled, setEndMoveDisabled] = useState<boolean>(true);
 
-	const [chosenDefendCard, setChosenDefendCard] = useState<Card | null>(null);
+	const [chosenDefendCard, setChosenDefendCard] = useState<Card | undefined>(undefined);
 
 	return (
 		<PlayerControlsContext.Provider

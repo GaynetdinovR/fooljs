@@ -1,7 +1,10 @@
 import GameService from '@/core/GameService.ts';
+
 import useGameData from '@/utils/hooks/useGameData.ts';
 
-const useGameService = () => {
+import { GamePhase } from '@/types/GameTypes.ts';
+
+const useGameService = (): {getGamePhase: () => GamePhase} => {
 	const { deck, fall, bot, human, settings } = useGameData();
 	const getGamePhase = () => {
 		const cardsCount = {

@@ -4,6 +4,12 @@ import useFallStore from '@/stores/fallStore.ts';
 import useTableStore from '@/stores/tableStore.ts';
 import useGameStore from '@/stores/gameStore.ts';
 
+/**
+ * Фасад над сторами для удобства.
+ *
+ * подписка идёт на весь стор (без селекторов).
+ * Это осознанное решение, ререндеры не критичны для пет-проекта.
+ */
 const useGameData = () => {
 	const { bot, human } = usePlayersStore();
 	const { table } = useTableStore();

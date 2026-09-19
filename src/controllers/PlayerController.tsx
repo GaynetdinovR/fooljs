@@ -1,13 +1,20 @@
-import useGameStore from '@/stores/gameStore.ts';
 import { useContext, useEffect } from 'react';
-import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
-import useGameConditions from '@/hooks/useGameConditions.ts';
+
+import useGameStore from '@/stores/gameStore.ts';
 import { useTable } from '@/stores/tableStore.ts';
 
-// Контроллер, отвечает за доступность кнопок игрока
+import useGameConditions from '@/hooks/useGameConditions.ts';
+
+import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
+
+import type { TableCardPair } from '@/types/store/TableStoreType.ts';
+
+/**
+ * Контроллер, отвечает за доступность кнопок игрока
+ **/
 const PlayerController = () => {
 	const { status } = useGameStore();
-	const table = useTable();
+	const table: TableCardPair[] = useTable();
 	const { isTableEmpty, isTableBeaten } = useGameConditions();
 
 	const { setMoveToFallDisabled, setRaiseDisabled, setEndMoveDisabled } =

@@ -1,22 +1,30 @@
-import useGameData from '@/utils/hooks/useGameData.ts';
 import TableService from '@/core/TableService.ts';
+
+import useGameData from '@/utils/hooks/useGameData.ts';
+
 import type { TableCardPair } from '@/types/store/TableStoreType.ts';
 
 type GameConditionsType = {
+	/**
+	 * Условие "побитого" стола
+	 */
 	isTableBeaten: (currentTable: TableCardPair[]) => boolean;
+	/**
+	 * Условие пустого стола
+	 */
 	isTableEmpty: (currentTable: TableCardPair[]) => boolean;
+	/**
+	 * Условия конца игры
+	 */
 	isGameEnd: () => boolean;
 };
 
 const useGameConditions = (): GameConditionsType => {
 	const { table, deck, bot, human, status } = useGameData();
 
-	// Условие "побитого" стола
 	const isTableBeaten = (currentTable) => TableService.isTableBeaten(currentTable);
-	// Условие пустого стола
 	const isTableEmpty = (currentTable) => currentTable.length === 0;
 
-	// Условия конца игры
 	const isGameEnd = () => {
 		const conditions = {
 			isTableEmpty: table.flat().length === 0,

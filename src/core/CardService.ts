@@ -1,41 +1,22 @@
-import type ICard from '@/types/core/ICard.ts';
-import type { Card, Suits } from '@/types/GameTypes.ts';
+import type { Card as CardType } from '@/types/GameTypes.ts';
+import { ICardService } from '@/types/core/ICardService.ts';
 
-class CardService implements ICard {
-	/**
-	 * Находит пересечения массивов карт, возвращает массив пересечений
-	 * @param firstCardsArray
-	 * @param secondCardsArray
-	 */
-	static findCardsIntersection = (
-		firstCardsArray: Card[],
-		secondCardsArray: Card[]
-	): Card[] | [] => {
+const CardService: ICardService = {
+	findCardsIntersection: (firstCardsArray, secondCardsArray) => {
 		return firstCardsArray.filter((card1) =>
-			secondCardsArray.some((card2) => card1.id === card2.id)
+			secondCardsArray.some((card2) => card1.id === card2.id),
 		);
-	};
+	},
 
-	/**
-	 * Находит разницу массивов карт, возвращает массив разницы от первого
-	 * @param firstCardsArray
-	 * @param secondCardsArray
-	 */
-	static findCardsDifference = (firstCardsArray: Card[], secondCardsArray: Card[]): Card[] => {
+	findCardsDifference: (firstCardsArray, secondCardsArray) => {
 		return firstCardsArray.filter(
-			(card1) => !secondCardsArray.some((card2) => card1.id === card2.id)
+			(card1) => !secondCardsArray.some((card2) => card1.id === card2.id),
 		);
-	};
+	},
 
-	/**
-	 * Удаляет карту из массива карт по id
-	 * @param cardId
-	 * @param array
-	 * @returns [card, filteredArray]
-	 */
-	static deleteCardFromArray = (cardId: string, array: Card[]): [Card, Card[]] => {
-		const filteredArray: Card[] = [];
-		let foundCard: Card | null = null;
+	deleteCardFromArray: (cardId, array) => {
+		const filteredArray: CardType[] = [];
+		let foundCard: CardType | undefined = undefined;
 
 		for (const card of array) {
 			if (card.id === cardId) {
@@ -45,21 +26,13 @@ class CardService implements ICard {
 			filteredArray.push(card);
 		}
 
-		if (!foundCard) {
-			throw new Error(`Card with id ${cardId} not found in array`);
-		}
+		if (!foundCard) throw new Error(`Card with id ${cardId} not found in array`);
 
 		return [foundCard, filteredArray];
-	};
+	},
 
-	/**
-	 * Находит меньшую по масти карту среди множества
-	 * @param cards
-	 * @param suit
-	 * @returns lowestSuitCard
-	 */
-	static findLowestSuit = (cards: Card[], suit: Suits): Card | null => {
-		let lowestSuitCard: Card | null = null;
+	findLowestSuit: (cards, suit) => {
+		let lowestSuitCard: CardType | undefined = undefined;
 
 		for (const card of cards) {
 			if (card.suit === suit) {
@@ -70,47 +43,45 @@ class CardService implements ICard {
 		}
 
 		return lowestSuitCard;
-	};
+	},
 
-	static getLowestNonTrump = (cards: Card[], trumpSuit: Suits): Card | null => {
+	getLowestNonTrump: (cards, trumpSuit) => {
 		const nonTrumpCards = cards.filter(card => card.suit !== trumpSuit);
 
-		if (!nonTrumpCards) return null;
+		if (nonTrumpCards.length === 0) return;
 
 		let min = nonTrumpCards[0];
 
-		for (const card of nonTrumpCards){
-			if (card.power < min.power) min = card
+		for (const card of nonTrumpCards) {
+			if (card.power < min.power) min = card;
 		}
 
-		return min
-	};
+		return min;
+	},
 
-	static getLowestCard = (cards, trumpSuit) => {
-		const nonTrumpMin = this.getLowestNonTrump(cards, trumpSuit);
+	getLowestCard: (cards, trumpSuit) => {
+		const nonTrumpMin = CardService.getLowestNonTrump(cards, trumpSuit);
 
-		if (nonTrumpMin) return nonTrumpMin
+		if (nonTrumpMin) return nonTrumpMin;
 
-		let min: Card = cards[0];
+		let min: CardType = cards[0];
 
-		for (const card of cards){
-			if (card.power < min.power) min = card
+		for (const card of cards) {
+			if (card.power < min.power) min = card;
 		}
 
-		return min
-	}
+		return min;
+	},
 
-	static getLowestCardById = (cards, ids, trumpSuit) : Card => {
-		const filtered = cards.filter(card => ids.includes(card.id))
+	findCardById: (cards, id) => {
+		const card = cards.find((cardel) => cardel.id === id);
 
-		return this.getLowestCard(filtered, trumpSuit)
-	}
+		if (!card) throw new Error(`Card ${id} not found`);
 
-	static findCardById = (cards, id) => {
-		return cards.filter((card) => card.id === id)[0];
-	};
+		return card;
+	},
 
-	static getUniqCardValues = (cards: Card[]): number[] => {
+	getUniqCardValues: (cards) => {
 		const values = new Set<number>();
 
 		cards.forEach((card) => {
@@ -118,19 +89,17 @@ class CardService implements ICard {
 		});
 
 		return Array.from(values);
-	};
+	},
 
-	/**
-	 * Возвращает отсортированные карты (Сначала козырные по убыванию, затем остальные по убыванию)
-	 */
-	static sortCards = (cards: Card[], trumpSuit: Suits): Card[] => {
+	sortCards: (cards, trumpSuit) => {
 		cards.sort((a, b) => b.power - a.power);
 
 		const trumpCards = cards.filter((card) => card.suit === trumpSuit);
 		const notTrumpCards = cards.filter((card) => card.suit !== trumpSuit);
 
 		return [...trumpCards, ...notTrumpCards];
-	};
+	},
 }
+;
 
 export default CardService;

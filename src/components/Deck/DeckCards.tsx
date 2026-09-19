@@ -1,5 +1,5 @@
-import Card from '@/ui/Card.tsx';
 import styles from '@/styles/modules/Deck.module.sass';
+import Card from '@/ui/Card.tsx';
 
 type DeckCardsProps = {
 	cardsCount: number;

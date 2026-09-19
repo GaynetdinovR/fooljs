@@ -1,13 +1,10 @@
 import CardService from '@/core/CardService.ts';
-import type { Card } from '@/types/GameTypes.ts';
-import type { TableCardPair, TableCard } from '@/types/store/TableStoreType.ts';
+import type { TableCard } from '@/types/store/TableStoreType.ts';
+import { ITableService } from '@/types/core/ITableService.ts';
 
-class TableService {
-	static isPossibleToAttack = (
-		card: TableCard,
-		table: TableCardPair[],
-		defenderCardsCount: Card[]
-	) => {
+const TableService: ITableService = {
+
+	isPossibleToAttack: (card, table, defenderCardsCount) => {
 		if (table.length === 0 && defenderCardsCount !== 0) return true;
 
 		const conditions = {
@@ -25,9 +22,9 @@ class TableService {
 		if (tableCardValues.includes(card.power)) conditions.isCardValueOnTable = true;
 
 		return conditions.isWithinAttackLimit && conditions.isCardValueOnTable;
-	};
+	},
 
-	static isPossibleToDefend = (attackCard, defendCard, trumpSuit) => {
+	isPossibleToDefend: (attackCard, defendCard, trumpSuit) => {
 		const conditions = {
 			isCardToBeatTrump: attackCard.suit === trumpSuit,
 			isCardToDefendTrump: defendCard.suit === trumpSuit,
@@ -46,17 +43,13 @@ class TableService {
 		}
 
 		return false;
-	};
+	},
 
-	static isTableBeaten = (table) => {
-		for (const [attackCard, defendCard] of table) {
-			if (!attackCard.isBeaten && defendCard === null) return false;
-		}
+	isTableBeaten: (table) => {
+		return (TableService.getUnbeatenCards(table).length === 0)
+	},
 
-		return true;
-	};
-
-	static getUnbeatenCards = (table: TableCardPair[]): TableCard[] => {
+	getUnbeatenCards: (table) => {
 		const unbeatenCards = [];
 
 		table.forEach((cardPair) => {
@@ -66,11 +59,11 @@ class TableService {
 		});
 
 		return unbeatenCards;
-	};
+	},
 
-	static getAllCards = (table) => {
+	getAllCards: (table) => {
 		return table.flat().filter((card) => card);
-	};
-}
+	},
+};
 
 export default TableService;

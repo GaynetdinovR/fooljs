@@ -1,18 +1,23 @@
-import styles from '@/styles/modules/Player.module.sass';
-import { useHumanHand } from '@/stores/playersStore.ts';
-import Card from '@/ui/Card.tsx';
 import { useContext } from 'react';
-import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
-import CardService from '@/core/CardService.ts';
-import { useTrumpCard } from '@/stores/deckStore.ts';
-import { useStatus } from '@/stores/gameStore.ts';
+import styles from '@/styles/modules/Player.module.sass';
 import classNames from 'classnames';
+
+import { useTrumpCard } from '@/stores/deckStore.ts';
+import { useHumanHand } from '@/stores/playersStore.ts';
+import { useStatus } from '@/stores/gameStore.ts';
 import useGameActionsHandler from '@/hooks/useGameActionsHandler.ts';
 
+import CardService from '@/core/CardService.ts';
+
+import Card from '@/ui/Card.tsx';
+import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
+
+import type { Card as CardType, GameStatus } from '@/types/GameTypes.ts';
+
 const Player = () => {
-	const trumpCard = useTrumpCard();
-	const status = useStatus();
-	const hand = useHumanHand();
+	const trumpCard: CardType = useTrumpCard();
+	const status: GameStatus = useStatus();
+	const hand: CardType[] = useHumanHand();
 
 	const { isRaiseDisabled, isMoveToFallDisabled, isEndMoveDisabled, chosenDefendCard } =
 		useContext(PlayerControlsContext);
@@ -25,12 +30,12 @@ const Player = () => {
 		<div className={styles.player}>
 			<div className={styles.player__cards}>
 				{CardService.sortCards(hand, trumpCard.suit).map((card) => {
-					const shouldShowDefendStyle =
+					const shouldShowDefendStyle: boolean =
 						status === 'bot-attack' &&
 						chosenDefendCard &&
 						card.id === chosenDefendCard.id;
 
-					const cardClass = classNames(styles.player__card, {
+					const cardClass: string = classNames(styles.player__card, {
 						[styles.player__card_for_defend]: shouldShowDefendStyle,
 					});
 

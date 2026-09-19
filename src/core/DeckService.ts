@@ -1,59 +1,47 @@
-import type IDeckService from '@/types/core/IDeckService.ts';
+import type { IDeckService } from '@/types/core/IDeckService.ts';
 import data, { CARDS_PATH } from '@/data/data.ts';
-import type { Card, CardsCountType } from '@/types/GameTypes.ts';
+import type { Card as CardType, CardsCountType } from '@/types/GameTypes.ts';
 
 class DeckService implements IDeckService {
-	private suits: string[] = data.suits;
-	private values: string[];
-	private isJokers: boolean = false;
+	suits = data.suits;
+	values;
+	cardCount;
 
-	constructor(private cardCount: CardsCountType) {
+	constructor(cardCount: CardsCountType) {
+		this.cardCount = cardCount;
 		this.initialize();
 	}
 
-	// Метод инициализации
-	private initialize = (): void => {
+	initialize = () => {
 		this.setCardsDataByCount();
 	};
 
-	// Устанавливает значения карт по их общему количеству
-	private setCardsDataByCount = () => {
-		switch (this.cardCount) {
-			case 24:
-				this.values = data.values.slice(-6);
-				break;
-			case 36:
-				this.values = data.values.slice(-9);
-				break;
-			case 52:
-				this.values = data.values;
-				break;
-			case 54:
-				this.values = data.values;
-				this.isJokers = true;
-				break;
+	setCardsDataByCount = () => {
+		const cardCounts: Record<CardsCountType, string[]>  = {
+			24: data.values.slice(-6),
+			36: data.values.slice(-9),
+			52: data.values
 		}
+
+		this.values = cardCounts[this.cardCount]
 	};
 
-	// Возвращает уникальный id карты
-	private getId = (value: string, suit: string): string => {
+	getId = (value, suit) => {
 		const valuePrefix = value === '10' ? '10' : value[0];
 		const suitPrefix = suit[0];
 
 		return valuePrefix + suitPrefix;
 	};
 
-	// Возвращает путь к изображению карты
-	private getPath = (value: string, suit: string): string => {
+	getPath = (value, suit) => {
 		return `${CARDS_PATH}/${this.getId(value, suit)}.png`;
 	};
 
-	// Возвращает собранный объект карты
-	private getCardInfo = (value: string, suit: string): Card => {
+	getCardInfo = (value, suit) => {
 		const color = suit[0] === 'C' || suit[0] === 'S' ? 'black' : 'red';
 		const power = this.values.indexOf(value) + 2;
 
-		return <Card>{
+		return <CardType>{
 			id: this.getId(value, suit),
 			imgPath: this.getPath(value, suit),
 			name: `${value} ${suit}`,
@@ -63,9 +51,8 @@ class DeckService implements IDeckService {
 		};
 	};
 
-	// Создает и возвращает колоду карт
-	public bundleDeck = () => {
-		const deck = [];
+	bundleDeck = () => {
+		const deck: CardType[] = [];
 
 		for (const value of this.values) {
 			for (const suit of this.suits) {
@@ -75,14 +62,11 @@ class DeckService implements IDeckService {
 			}
 		}
 
-		if (this.isJokers) return [...deck, ...data.jokers];
-
 		return deck;
 	};
 
-	// Возвращает перемешанную колоду
-	public shuffleDeck = (deck) => {
-		const shuffled = [...deck];
+	shuffleDeck = (deck) => {
+		const shuffled: CardType[] = [...deck];
 
 		for (let i = shuffled.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -90,25 +74,6 @@ class DeckService implements IDeckService {
 		}
 
 		return shuffled;
-	};
-
-	// Возвращает уменьшенное количество карт, которые нужно показать в колоде
-	static getSmalledCardsCountForDeck = (deck: Card[]): number => {
-		const { length } = deck;
-
-		if (length === 54) return 7;
-		if (length === 1) return 0;
-		if (length > 1 && length < 7) return 1;
-		if (Math.floor(length / 7) === 7) return 6;
-
-		return Math.floor(length / 7);
-	};
-
-	// Возвращает уменьшенное количество карт, которые нужно показать в бито
-	static getSmalledCardsCountForFall = (cardsCount) => {
-		if (cardsCount.length === 0) return 0;
-
-		return Math.floor(cardsCount.length / 7) + 1;
 	};
 }
 

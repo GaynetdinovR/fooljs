@@ -1,6 +1,6 @@
 import { create } from 'zustand/react';
 import type TableStoreType from '@/types/store/TableStoreType.ts';
-import Card from '@/ui/Card.tsx';
+import { Card as CardType } from '@/types/GameTypes.ts';
 import { formatAttackCard } from '@/utils/utils.ts';
 
 const INIT_STORE = {
@@ -9,7 +9,7 @@ const INIT_STORE = {
 
 const useTableStore = create<TableStoreType>((set) => ({
 	...INIT_STORE,
-	updateTable: (table: Card[]) => set(() => ({ table: table })),
+	updateTable: (table: CardType[]) => set(() => ({ table: table })),
 	addAttackCard: (card) => {
 		const formattedCard = formatAttackCard(card);
 

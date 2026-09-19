@@ -9,7 +9,6 @@ export const aiModeLocal = {
 
 export const gameModeLocal = {
 	'throw-in': 'Подкидной',
-	'with passing': 'Переводной',
 } as const;
 
 export const playersLocal = {

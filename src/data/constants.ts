@@ -19,3 +19,4 @@ export const MENU_ANIMATION = {
 		menuOpening: 0.5,
 	},
 } as const;
+

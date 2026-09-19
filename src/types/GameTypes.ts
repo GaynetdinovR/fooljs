@@ -1,3 +1,5 @@
+import type { TableCardPair } from '@/types/store/TableStoreType.ts';
+
 export type CardsCountType = 24 | 36 | 52;
 export type GameModeType = 'throw-in' | 'with passing';
 export type AiModeType = 'random' | 'fool' | 'easy' | 'medium' | 'hard' | 'extreme';
@@ -44,3 +46,12 @@ export type Card = {
 export type PossibleMoves = {
 	[key: string]: string[];
 };
+
+export type BotGameData = {
+	hand: Card[],
+	table: TableCardPair[],
+	humanHandCount?: number,
+	trumpSuit: Suits
+}
+
+export type GamePhase = '1' | '2' | '2.5' | '3';

@@ -1,49 +1,33 @@
-import type { AiModeType, Card, PossibleMoves, Suits } from '@/types/GameTypes.ts';
-import type { TableCardPair } from '@/types/store/TableStoreType.ts';
+import type { AiModeType, BotGameData, Card as CardType, PossibleMoves, Suits } from '@/types/GameTypes.ts';
 
-type DefendCardWithId = Card & { attackCardId: string };
+type DefendCardWithId = CardType & { attackCardId: string };
 
-type GameDataType = {
-	hand: Card[]
-	trumpSuit: Suits
-	table: TableCardPair[]
-}
-
-interface IBotDefendService {
+export type IBotDefendService = {
 	/**
 	 * Общий метод защиты
 	 * @param aiMode
 	 * @param gameData
 	 */
-	defend: (aiMode: AiModeType, gameData: GameDataType) => DefendCardWithId | null;
-
+	defend: (aiMode: AiModeType, gameData: BotGameData) => DefendCardWithId | undefined,
 	/**
-	 * Находит пары возможных ходов при защите
+	 * Находит пары возможных ходов при защите,
 	 * На каждую не отбитую карту - возможные ходы защиты
-	 * Если ходов защиты нет, то null
+	 * Если ходов защиты нет, то undefined
 	 * @param attackCards
 	 * @param hand
 	 * @param trumpSuit
-	 * @private
 	 */
-	_findPossibleDefendMoves: (attackCards: Card[], hand: Card[], trumpSuit: Suits) => PossibleMoves | null;
-
+	findPossibleDefendMoves: (attackCards: CardType[], hand: CardType[], trumpSuit: Suits) => PossibleMoves | undefined,
 	/**
 	 * Защита случайной картой (очень легкий уровень бота)
 	 * @param possibleMoves
-	 * @param hand
-	 * @private
+	 * @param gameData
 	 */
-	_foolDefend: (possibleMoves: PossibleMoves, gameData: GameDataType) => DefendCardWithId;
-
+	foolDefend: (possibleMoves: PossibleMoves, gameData: BotGameData) => DefendCardWithId | undefined,
 	/**
 	 * Защита наименьшей картой (легкий уровень бота)
 	 * @param possibleMoves
-	 * @param hand
-	 * @param trumpSuit
-	 * @private
+	 * @param gameData
 	 */
-	_easyDefend: (possibleMoves: PossibleMoves, gameData: GameDataType) => DefendCardWithId;
+	easyDefend: (possibleMoves: PossibleMoves, gameData: BotGameData) => DefendCardWithId | undefined,
 }
-
-export default IBotDefendService;

@@ -16,7 +16,7 @@ const log = {
 		console.log(`[INFO] ${message}`, data);
 	},
 
-	withLogger: <T>(fn, context: string): T => {
+	withLogger: (fn, context: string): void => {
 		try {
 			return fn();
 		} catch (error) {

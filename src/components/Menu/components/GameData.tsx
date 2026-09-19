@@ -9,7 +9,7 @@ const GameData = ({ isGameOn }: { isGameOn: boolean }) => {
 
 	return (
 		<div className={styles.menu__game_data}>
-			<GameModeSelector updateSettings={updateSettings} isGameOn={isGameOn} />
+			<GameModeSelector updateSettings={updateSettings} />
 			<span className={styles.menu__game_data_name}> Количество игроков </span>
 			<span className={styles.menu__game_data_span}>2</span>
 			<CardsCountSelector updateSettings={updateSettings} isGameOn={isGameOn} />

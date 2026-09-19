@@ -1,7 +1,7 @@
 import styles from '@/styles/modules/Ui.module.sass';
 
 type NullCardProps = {
-	frontImage?: string | null;
+	frontImage?: string | undefined;
 };
 
 const NullCard = ({ frontImage = null }: NullCardProps) => {

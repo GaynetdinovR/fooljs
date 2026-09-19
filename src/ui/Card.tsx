@@ -9,10 +9,10 @@ interface CardProps {
 }
 
 const Card = ({
-	frontImage = '',
+	frontImage,
 	isClickable = true,
 	onClick = () => {},
-	className = '',
+	className,
 }: CardProps) => {
 	const handleClick = () => {
 		if (isClickable) onClick();
@@ -30,7 +30,6 @@ const Card = ({
 				<img
 					src={isFrontImgExists ? frontImage : 'content/back.png'}
 					alt={isFrontImgExists ? 'Card front' : 'Card back'}
-					className={styles.card__img}
 				/>
 			</div>
 		</button>

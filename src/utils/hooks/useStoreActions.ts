@@ -5,11 +5,17 @@ import usePlayersStore from '@/stores/playersStore.ts';
 import useTableStore from '@/stores/tableStore.ts';
 import type { Card, Players } from '@/types/GameTypes.ts';
 
+/**
+ * Фасад над сторами для удобства.
+ *
+ * подписка идёт на весь стор (без селекторов).
+ * Это осознанное решение, ререндеры не критичны для пет-проекта.
+ */
 const useStoreActions = () => {
 	const {
 		updateDeck,
-		dealCard,
-		dealCards,
+		takeCard,
+		takeCards,
 		updateTrumpCard,
 		clearAll: clearDeck,
 	} = useDeckStore();
@@ -48,8 +54,8 @@ const useStoreActions = () => {
 	return {
 		// Deck actions
 		updateDeck,
-		dealCard,
-		dealCards,
+		takeCard,
+		takeCards,
 		updateTrumpCard,
 		clearDeck,
 

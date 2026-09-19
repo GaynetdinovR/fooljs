@@ -1,12 +1,16 @@
 import styles from '@/styles/modules/Deck.module.sass';
+import { getSmalledCardsCountForDeck } from '@/utils/view.ts';
+
 import { useDeck } from '@/stores/deckStore.ts';
-import DeckService from '@/core/DeckService.ts';
+
 import DeckCards from '@/components/Deck/DeckCards.tsx';
 import TrumpCard from '@/components/Deck/TrumpCard.tsx';
 
+import type { Card as CardType } from '@/types/GameTypes.ts';
+
 const Deck = () => {
-	const deck = useDeck();
-	const cardsCount = DeckService.getSmalledCardsCountForDeck(deck);
+	const deck: CardType[] = useDeck();
+	const cardsCount = getSmalledCardsCountForDeck(deck);
 
 	return (
 		<>

@@ -6,8 +6,18 @@ import useDeckStore from '@/stores/deckStore.ts';
 import { GAME_STATUS } from '@/data/constants.ts';
 
 type TurnLogicType = {
+	/**
+	 * Установка хода
+	 */
 	changeTurn: () => void;
+	/**
+	 * Установка первого игрока
+	 * TODO: trumpCard - костыль
+	 */
 	setFirstTurn: () => void;
+	/**
+	 * Смена хода
+	 */
 	setTurn: (turn: Players) => void;
 };
 
@@ -15,14 +25,12 @@ const useTurnLogic = (): TurnLogicType => {
 	const { human, bot, turn } = useGameData();
 	const { updateTurn, updateStatus } = useStoreActions();
 
-	// Установка хода
 	const setTurn = (turn) => {
 		updateTurn(turn);
 
 		updateStatus(GAME_STATUS.ATTACK(turn));
 	};
 
-	// Установка первого игрока (trumpCard - костыль)
 	const setFirstTurn = () => {
 		const { trumpCard } = useDeckStore.getState?.();
 
@@ -33,7 +41,6 @@ const useTurnLogic = (): TurnLogicType => {
 		setTurn(turn);
 	};
 
-	// Смена хода
 	const changeTurn = () => {
 		if (!turn) throw Error('Turn not found!');
 

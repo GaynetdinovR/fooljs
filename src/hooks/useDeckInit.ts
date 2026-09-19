@@ -1,12 +1,16 @@
-import DeckService from '@/core/DeckService.ts';
-import useDeckStore from '@/stores/deckStore.ts';
 import useGameData from '@/utils/hooks/useGameData.ts';
+
+import DeckService from '@/core/DeckService.ts';
+
+import useDeckStore from '@/stores/deckStore.ts';
 
 const useDeckInit = (): { initDeck: () => void } => {
 	const { settings } = useGameData();
 	const { updateDeck, updateTrumpCard } = useDeckStore();
 
-	// Инициализирует колоду и козырь
+	/**
+	 * Инициализирует колоду и козырь
+ 	 */
 	const initDeck = () => {
 		if (!settings) throw Error('Settings not set!');
 

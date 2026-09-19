@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useStatus } from '@/stores/gameStore.ts';
 import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
 
-// Контроллер, отвечает за уведомления внутри игры
+import { useStatus } from '@/stores/gameStore.ts';
+
+/**
+ * Контроллер, отвечает за уведомления внутри игры
+ */
 const NotificationsController = () => {
 	const status = useStatus();
 	const [toastId, setToastId] = useState<string | undefined>(undefined);

@@ -7,13 +7,21 @@ import useClearAll from '@/utils/hooks/useClearAll.ts';
 interface MenuLogicType {
 	isMenuOpen: boolean;
 	isAnimationEnded: boolean;
+	/**
+	 * Закрывает меню, обновляет статус
+	 */
 	handleStartBtn: () => void;
+	/**
+	 * Закрывает полуоткрытое меню, обновляет статус, открывает полное меню, сбрасывает все данные игры
+	 */
 	handleResetBtn: () => void;
 	toggleMenu: () => void;
 	openStartMenu: () => void;
 }
 
-// Отвечает за логику меню(синхронизирует анимации с действиями)
+/**
+ * Отвечает за логику меню(синхронизирует анимации с действиями)
+ */
 export const useMenuLogic = (): MenuLogicType => {
 	const { updateStatus } = useGameStore();
 	const { clearAll } = useClearAll();
@@ -26,9 +34,6 @@ export const useMenuLogic = (): MenuLogicType => {
 		setAnimationEnded(false);
 	};
 
-	/**
-	 * Закрывает меню, обновляет статус
-	 */
 	const handleStartBtn = async () => {
 		setMenu(false);
 		updateStatus('game-on');
@@ -38,9 +43,6 @@ export const useMenuLogic = (): MenuLogicType => {
 		setAnimationEnded(true);
 	};
 
-	/**
-	 * Закрывает полуоткрытое меню, обновляет статус, открывает полное меню, сбрасывает все данные игры
-	 */
 	const handleResetBtn = async () => {
 		setMenu(false);
 		updateStatus('in-menu');

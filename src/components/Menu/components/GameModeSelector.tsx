@@ -4,14 +4,13 @@ import Selector from '@/components/Menu/components/Selector.tsx';
 
 type GameModeSelectorProps = {
 	updateSettings: (newSettings: { gameMode: string }) => void;
-	isGameOn: boolean;
 };
 
-const GameModeSelector = ({ updateSettings, isGameOn }: GameModeSelectorProps) => {
+const GameModeSelector = ({ updateSettings }: GameModeSelectorProps) => {
 	return (
 		<Selector<GameModeType>
-			isDisabled={isGameOn}
-			options={['throw-in', 'with passing']}
+			isDisabled={true}
+			options={['throw-in']}
 			initValue={'throw-in'}
 			formatValue={(value) => gameModeLocal[value]}
 			onChange={(value) => updateSettings({ gameMode: value })}
