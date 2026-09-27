@@ -3,7 +3,9 @@ import useFallStore from '@/stores/fallStore.ts';
 import useGameStore from '@/stores/gameStore.ts';
 import usePlayersStore from '@/stores/playersStore.ts';
 import useTableStore from '@/stores/tableStore.ts';
-import type { Card, Players } from '@/types/GameTypes.ts';
+
+import type { Card as CardType, CardId, Players } from '@/types/GameTypes.ts';
+import useMoveHistoryStore from '@/stores/moveHistoryStore.ts';
 
 /**
  * Фасад над сторами для удобства.
@@ -27,6 +29,7 @@ const useStoreActions = () => {
 		updateTurn,
 		updateStatus,
 		updateStats,
+		incrementMoveNumber,
 		clearAll: clearGame,
 	} = useGameStore();
 
@@ -41,14 +44,35 @@ const useStoreActions = () => {
 
 	const { updateTable, addAttackCard, addDefendCard, clearAll: clearTable } = useTableStore();
 
-	const attackWithCard = (card: Card, player: Players) => {
+	const {
+		addMoveToHistory,
+		updateHistory,
+		clearAll: clearMoveHistory,
+	} = useMoveHistoryStore();
+
+	const attackWithCard = (card: CardId, player: Players) => {
 		removeCardFromPlayer(player, card);
 		addAttackCard(card);
+
+		addMoveToHistory({
+			moveNumber: useGameStore.getState().moveNumber ?? 0,
+			player: player,
+			action: 'attack',
+			cardIds: [card],
+		});
 	};
 
-	const defendWithCard = (attackCardId: string, defendingCard: Card, player: Players) => {
-		removeCardFromPlayer(player, defendingCard);
-		addDefendCard(attackCardId, defendingCard);
+	const defendWithCard = (attackCard: CardId, defendCard: CardId, player: Players) => {
+		removeCardFromPlayer(player, defendCard);
+		addDefendCard(attackCard, defendCard);
+
+		addMoveToHistory({
+			moveNumber: useGameStore.getState().moveNumber ?? 0,
+			player: player,
+			action: 'defend',
+			cardIds: [defendCard],
+			attackCardId: attackCard,
+		});
 	};
 
 	return {
@@ -69,6 +93,7 @@ const useStoreActions = () => {
 		updateTurn,
 		updateStatus,
 		updateStats,
+		incrementMoveNumber,
 		clearGame,
 
 		// Players actions
@@ -84,6 +109,11 @@ const useStoreActions = () => {
 		addAttackCard,
 		addDefendCard,
 		clearTable,
+
+		// Move History
+		addMoveToHistory,
+		updateHistory,
+		clearMoveHistory,
 
 		// Complex actions
 		attackWithCard,

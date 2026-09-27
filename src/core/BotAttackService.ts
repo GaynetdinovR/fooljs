@@ -38,13 +38,17 @@ const BotAttackService: IBotAttackService = {
 		return possibleMoves;
 	},
 
-	foolAttack: (possibleMoves) => {
+	foolAttack: (possibleMoves, gameData) => {
 		return Random.getArrayElem<CardType>(possibleMoves);
 	},
 
 	easyAttack: (possibleMoves, { trumpSuit }) => {
 		return CardService.getLowestCard(possibleMoves, trumpSuit);
 	},
+
+	mediumAttack: (possibleMoves, gameData) => {
+		return Random.getArrayElem<CardType>(possibleMoves);
+	}
 };
 
 export default BotAttackService;

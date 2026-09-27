@@ -3,7 +3,7 @@ import CardService from '@/core/CardService.ts';
 
 import { PLAYERS } from '@/data/constants.ts';
 
-import type { Card, Players, Suits } from '@/types/GameTypes.ts';
+import type { Card as CardType, Players, Suits } from '@/types/GameTypes.ts';
 
 type IPlayerService = {
 	/**
@@ -12,7 +12,7 @@ type IPlayerService = {
 	 * @param botHand
 	 * @param trumpSuit
 	 */
-	findWhoseFirstTurn: (humanHand: Card[], botHand: Card[], trumpSuit: Suits) => Players
+	findWhoseFirstTurn: (humanHand: CardType[], botHand: CardType[], trumpSuit: Suits) => Players
 	/**
 	 * Возвращает другого игрока
 	 */
@@ -25,7 +25,7 @@ const PlayerService: IPlayerService = {
 		const humanLowestTrump = CardService.findLowestSuit(humanHand, trumpSuit);
 		const botLowestTrump = CardService.findLowestSuit(botHand, trumpSuit);
 
-		if (humanLowestTrump && botLowestTrump) {
+		if (humanLowestTrump?.power && botLowestTrump?.power) {
 			return humanLowestTrump.power < botLowestTrump.power ? 'human' : 'bot';
 		}
 

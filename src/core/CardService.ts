@@ -18,12 +18,12 @@ const CardService: ICardService = {
 		const filteredArray: CardType[] = [];
 		let foundCard: CardType | undefined = undefined;
 
-		for (const card of array) {
-			if (card.id === cardId) {
-				foundCard = card;
+		for (const arrayCard of array) {
+			if (arrayCard.id === cardId) {
+				foundCard = arrayCard;
 				continue;
 			}
-			filteredArray.push(card);
+			filteredArray.push(arrayCard);
 		}
 
 		if (!foundCard) throw new Error(`Card with id ${cardId} not found in array`);
@@ -92,7 +92,7 @@ const CardService: ICardService = {
 	},
 
 	sortCards: (cards, trumpSuit) => {
-		cards.sort((a, b) => b.power - a.power);
+		[...cards].sort((a, b) => b.power - a.power);
 
 		const trumpCards = cards.filter((card) => card.suit === trumpSuit);
 		const notTrumpCards = cards.filter((card) => card.suit !== trumpSuit);

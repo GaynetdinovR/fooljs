@@ -1,16 +1,14 @@
-import type { Card } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
-export type TableCard = Card & { isBeaten: boolean };
-
-export type TableCardPair = [TableCard, TableCard];
+export type TableCardPair = [CardId, CardId | null];
 interface TableState {
 	table: TableCardPair[];
 }
 
 interface TableActions {
-	updateTable: (table: TableCard[]) => void;
-	addAttackCard: (card: Card) => void;
-	addDefendCard: (attackCardId: string, card: Card) => void;
+	updateTable: (table: TableCardPair[]) => void;
+	addAttackCard: (card: CardId) => void;
+	addDefendCard: (attackCardId: CardId, card: CardId) => void;
 	clearAll: () => void;
 }
 

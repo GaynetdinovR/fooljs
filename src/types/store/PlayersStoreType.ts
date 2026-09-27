@@ -1,16 +1,16 @@
-import type { Card, Players } from '@/types/GameTypes.ts';
+import type { CardId, Players } from '@/types/GameTypes.ts';
 
 interface PlayersState {
-	human: Card[];
-	bot: Card[];
+	human: CardId[];
+	bot: CardId[];
 }
 
 interface PlayersActions {
-	updateHumanHand: (hand: Card[]) => void;
-	updateBotHand: (hand: Card[]) => void;
-	giveCardToPlayer: (player: Players, card: Card) => void;
-	giveCardsToPlayer: (player: Players, cards: Card[]) => void;
-	removeCardFromPlayer: (player: Players, card: Card) => void;
+	updateHumanHand: (hand: CardId[]) => void;
+	updateBotHand: (hand: CardId[]) => void;
+	giveCardToPlayer: (player: Players, card: CardId) => void;
+	giveCardsToPlayer: (player: Players, cards: CardId[]) => void;
+	removeCardFromPlayer: (player: Players, card: CardId) => void;
 	clearAll: () => void;
 }
 

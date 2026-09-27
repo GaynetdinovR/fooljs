@@ -12,28 +12,32 @@ import CardService from '@/core/CardService.ts';
 import Card from '@/ui/Card.tsx';
 import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
 
-import type { Card as CardType, GameStatus } from '@/types/GameTypes.ts';
+import type { CardId, GameStatus } from '@/types/GameTypes.ts';
+import CardDatabase from '@/core/CardDatabase.ts';
 
 const Player = () => {
-	const trumpCard: CardType = useTrumpCard();
+	const trumpCard: CardId = useTrumpCard();
 	const status: GameStatus = useStatus();
-	const hand: CardType[] = useHumanHand();
+	const hand: CardId[] = useHumanHand();
+
+	const handCardObjects = CardDatabase.tryGetCardsById(hand);
+	const trumpCardObject = CardDatabase.tryGetCardById(trumpCard);
 
 	const { isRaiseDisabled, isMoveToFallDisabled, isEndMoveDisabled, chosenDefendCard } =
 		useContext(PlayerControlsContext);
 	const { handleCardClick, handleRaiseClick, handleEndMoveClick, handleMoveToFallClick } =
 		useGameActionsHandler();
 
-	if (!trumpCard) return null;
+	if (!trumpCardObject) return null;
 
 	return (
 		<div className={styles.player}>
 			<div className={styles.player__cards}>
-				{CardService.sortCards(hand, trumpCard.suit).map((card) => {
+				{handCardObjects && CardService.sortCards(handCardObjects, trumpCardObject.suit).map((card) => {
 					const shouldShowDefendStyle: boolean =
 						status === 'bot-attack' &&
 						chosenDefendCard &&
-						card.id === chosenDefendCard.id;
+						card.id === chosenDefendCard;
 
 					const cardClass: string = classNames(styles.player__card, {
 						[styles.player__card_for_defend]: shouldShowDefendStyle,
@@ -44,7 +48,7 @@ const Player = () => {
 							key={card.id}
 							isClickable={true}
 							className={cardClass}
-							onClick={() => handleCardClick(card)}
+							onClick={() => handleCardClick(card.id)}
 							frontImage={card?.imgPath}
 						/>
 					);

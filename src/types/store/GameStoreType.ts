@@ -4,6 +4,7 @@ interface GameState {
 	settings: GameSettings;
 	status: GameStatus;
 	turn: Players | null;
+	moveNumber: number;
 }
 
 interface GameActions {
@@ -11,6 +12,7 @@ interface GameActions {
 	updateTurn: (newTurn: Players | null) => void;
 	updateStatus: (newStatus: GameStatus) => void;
 	updateStats: (newStats: { settings: GameSettings; result: GameResults }) => void;
+	incrementMoveNumber: (number: number) => void;
 	clearAll: () => void;
 }
 

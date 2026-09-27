@@ -2,16 +2,19 @@ import styles from '@/styles/modules/Bot.module.sass';
 
 import { useBotHand } from '@/stores/playersStore.ts';
 
-import type { Card as CardType } from '@/types/GameTypes.ts';
+import type { Card as CardType, CardId } from '@/types/GameTypes.ts';
 
 import Card from '@/ui/Card.tsx';
+import CardDatabase from '@/core/CardDatabase.ts';
 
 const Bot = () => {
-	const hand: CardType[] = useBotHand();
+	const hand: CardId[] = useBotHand();
+
+	const handCardObjects = CardDatabase.getCardsById(hand);
 
 	return (
 		<div className={styles.bot}>
-			{hand.map((card: CardType) => {
+			{handCardObjects.map((card: CardType) => {
 				return (
 					<Card
 						key={card.id}

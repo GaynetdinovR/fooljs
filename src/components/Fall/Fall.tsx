@@ -6,10 +6,10 @@ import { useFall } from '@/stores/fallStore.ts';
 import NullCard from '@/ui/NullCard.tsx';
 import Card from '@/ui/Card.tsx';
 
-import type { Card as CardType } from '@/types/GameTypes.ts';
+import type { Card as CardType, CardId } from '@/types/GameTypes.ts';
 
 const Fall = () => {
-	const fall: CardType[] = useFall();
+	const fall: CardId[] = useFall();
 
 	const isFallEmpty: boolean = fall.length === 0;
 	const cardsCount: number = getSmalledCardsCountForFall(fall);

@@ -1,6 +1,6 @@
 import CardService from '@/core/CardService.ts';
-import type { TableCard } from '@/types/store/TableStoreType.ts';
-import { ITableService } from '@/types/core/ITableService.ts';
+import type { ITableService } from '@/types/core/ITableService.ts';
+import type { CardId, Card as CardType } from '@/types/GameTypes.ts';
 
 const TableService: ITableService = {
 
@@ -12,10 +12,10 @@ const TableService: ITableService = {
 			isWithinAttackLimit: false,
 		};
 
-		const allTableCards: TableCard[] = table.flat();
+		const allTableCards: CardType[] = table.flat();
 
 		const tableCardValues = CardService.getUniqCardValues(allTableCards);
-		const unbeatenCardsCount = table.filter((pair) => !pair[0].isBeaten).length;
+		const unbeatenCardsCount = table.filter((pair) => !pair[1]).length;
 
 		if (unbeatenCardsCount < defenderCardsCount) conditions.isWithinAttackLimit = true;
 
@@ -46,23 +46,31 @@ const TableService: ITableService = {
 	},
 
 	isTableBeaten: (table) => {
-		return (TableService.getUnbeatenCards(table).length === 0)
+		return (TableService.getUnbeatenCards(table).length === 0);
 	},
 
 	getUnbeatenCards: (table) => {
-		const unbeatenCards = [];
+		const unbeatenCards: CardType[] = [];
 
-		table.forEach((cardPair) => {
-			const attackCard = cardPair[0];
-
-			if (!attackCard.isBeaten) unbeatenCards.push(attackCard);
+		table.forEach(([attackCard, defendCard]) => {
+			if (!defendCard) unbeatenCards.push(attackCard);
 		});
 
 		return unbeatenCards;
 	},
 
+	getAllAttackCards: (table) => {
+		const attackCards: CardId[] = [];
+
+		for (const [attackCard] of table) {
+			attackCards.push(attackCard);
+		}
+
+		return attackCards;
+	},
+
 	getAllCards: (table) => {
-		return table.flat().filter((card) => card);
+		return table.flat().filter((card): card is CardId => card);
 	},
 };
 

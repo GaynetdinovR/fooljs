@@ -6,14 +6,14 @@ import usePlayerActions from '@/hooks/usePlayerActions.ts';
 
 import { useStatus } from '@/stores/gameStore.ts';
 
-import type { Card } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
 type GameActionsHandlerType = {
-	handleCardClick: (card: Card) => void;
+	handleCardClick: (card: CardId) => void;
 	handleRaiseClick: () => void;
 	handleMoveToFallClick: () => void;
 	handleEndMoveClick: () => void;
-	handleTableCardClick: (attackCard: Card, defendCard: Card) => void;
+	handleTableCardClick: (attackCard: CardId, defendCard: CardId) => void;
 };
 
 /**
@@ -62,6 +62,8 @@ const useGameActionsHandler = (): GameActionsHandlerType => {
 	};
 
 	const handleTableCardClick = (attackCard, defendCard) => {
+		if(!attackCard || !defendCard) return;
+
 		defend(attackCard, defendCard);
 
 		setChosenDefendCard(null);

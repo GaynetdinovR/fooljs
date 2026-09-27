@@ -1,4 +1,4 @@
-import type { Card as CardType, Suits } from '@/types/GameTypes.ts';
+import type { Card as CardType, CardId, Suits } from '@/types/GameTypes.ts';
 
 export type ICardService = {
 	/**
@@ -14,7 +14,7 @@ export type ICardService = {
 	/**
 	 * Удаляет карту из массива карт по id
 	 */
-	deleteCardFromArray: (cardId: string, array: CardType[]) => [CardType, CardType[]],
+	deleteCardFromArray: (cardId: CardId, array: CardType[]) => [CardType, CardType[]],
 	/**
 	 * Находит меньшую по масти карту среди множества
 	 */

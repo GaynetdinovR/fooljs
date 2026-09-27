@@ -1,15 +1,15 @@
-import type { Card } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
 interface DeckState {
-	deck: Card[];
-	trumpCard: Card;
+	deck: CardId[];
+	trumpCard: CardId;
 }
 
 interface DeckActions {
-	updateDeck: (deck: Card[]) => void;
-	updateTrumpCard: (trumpCard: Card | null) => void;
-	takeCard: () => Card;
-	takeCards: (count: number) => Card[];
+	updateDeck: (deck: CardId[]) => void;
+	updateTrumpCard: (trumpCard: CardId | null) => void;
+	takeCard: () => CardId;
+	takeCards: (count: number) => CardId[];
 	clearAll: () => void;
 }
 

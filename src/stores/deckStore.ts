@@ -1,5 +1,4 @@
 import { create } from 'zustand/react';
-import type { Card } from '@/types/GameTypes.ts';
 import type DeckStoreType from '@/types/store/DeckStoreType.ts';
 
 const INIT_STORE = {
@@ -27,7 +26,7 @@ const useDeckStore = create<DeckStoreType>((set, get) => ({
 
 		return takenCards;
 	},
-	updateTrumpCard: (trumpCard: Card) => set(() => ({ trumpCard: trumpCard })),
+	updateTrumpCard: (trumpCard) => set(() => ({ trumpCard: trumpCard })),
 	clearAll: () => set(() => INIT_STORE),
 }));
 

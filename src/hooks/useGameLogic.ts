@@ -14,13 +14,25 @@ import useTurnLogic from '@/hooks/useTurnLogic.ts';
 import useDeckInit from '@/hooks/useDeckInit.ts';
 import useGameConditions from '@/hooks/useGameConditions.ts';
 
-import type { Players } from '@/types/GameTypes.ts';
+import type { CardId, Players } from '@/types/GameTypes.ts';
 import type { GameLogic } from '@/types/hooks/GameLogic.ts';
 
-const useGameLogic = (): GameLogic => {
-	const { table, status, human, bot, settings } = useGameData();
+import useGameStore from '@/stores/gameStore.ts';
+import PlayerModelService from '@/core/PlayerModelService.ts';
+import useMoveHistoryStore from '@/stores/moveHistoryStore.ts';
 
-	const { updateStatus, moveToFall, clearTable, giveCardsToPlayer, updateStats } =
+const useGameLogic = (): GameLogic => {
+	const { table, status, human, bot, settings, history } = useGameData();
+
+	const {
+		updateStatus,
+		moveToFall,
+		clearTable,
+		giveCardsToPlayer,
+		updateStats,
+		addMoveToHistory,
+		incrementMoveNumber,
+	} =
 		useStoreActions();
 	const { changeTurn, setFirstTurn } = useTurnLogic();
 	const { dealCards, dealCardsToBothPlayers } = useDealingLogic();
@@ -47,15 +59,21 @@ const useGameLogic = (): GameLogic => {
 			updateStatus('move-to-fall');
 
 			setTimeout(() => {
-				moveToFall(table.flat());
+				const cardsToFall = table.flat().filter((id): id is CardId => id !== null);
+
+				moveToFall(cardsToFall);
 
 				clearTable();
+
+				incrementMoveNumber(1);
+
+				console.log(PlayerModelService.buildCardKnowledge(useMoveHistoryStore.getState().history, 3));
 
 				changeTurn();
 
 				dealCards();
 			}, 0);
-		}, endGameActions, isGameEnd)
+		}, endGameActions, isGameEnd);
 	};
 
 	const raiseActions = (player: Players) => {
@@ -63,10 +81,21 @@ const useGameLogic = (): GameLogic => {
 	};
 
 	const endMoveActions = (attackingPlayer: Players) => {
-		giveCardsToPlayer(
-			PlayerService.getAnotherPlayer(attackingPlayer),
-			TableService.getAllCards(table),
-		);
+		const takingPlayer = PlayerService.getAnotherPlayer(attackingPlayer);
+		const cards = TableService.getAllCards(table);
+
+		giveCardsToPlayer(takingPlayer, cards);
+
+		addMoveToHistory({
+			moveNumber: useGameStore.getState().moveNumber ?? 0,
+			player: takingPlayer,
+			action: 'raise',
+			cardIds: cards,
+		});
+
+		console.log(PlayerModelService.buildCardKnowledge(useMoveHistoryStore.getState().history, 3));
+
+		incrementMoveNumber(1);
 
 		clearTable();
 
@@ -79,6 +108,8 @@ const useGameLogic = (): GameLogic => {
 		updateStats({ settings, result: getGameResults() });
 
 		updateStatus('game-over');
+
+		console.log(history);
 
 		clearAll();
 	};

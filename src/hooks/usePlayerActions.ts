@@ -4,17 +4,17 @@ import useStoreActions from '@/utils/hooks/useStoreActions.ts';
 
 import useTableService from '@/hooks/useTableService.ts';
 
-import type { Card as CardType} from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
 type PlayerActionsType = {
 	/**
 	 * Метод защиты игрока
 	 */
-	defend: (attackCard: CardType, defendCard: CardType) => void;
+	defend: (attackCard: CardId, defendCard: CardId) => void;
 	/**
 	 * Метод атаки игрока
 	 */
-	attack: (card: CardType) => void;
+	attack: (card: CardId) => void;
 };
 
 const usePlayerActions = (): PlayerActionsType => {
@@ -23,7 +23,7 @@ const usePlayerActions = (): PlayerActionsType => {
 
 	const defend = (attackCard, defendCard) => {
 		if (isPossibleToDefend(attackCard, defendCard)) {
-			defendWithCard(attackCard.id, defendCard, 'human');
+			defendWithCard(attackCard, defendCard, 'human');
 		} else {
 			toast.error(`Недопустимый ход!`);
 		}

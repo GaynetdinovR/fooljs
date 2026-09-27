@@ -1,24 +1,8 @@
 import type { Card as CardType, CardsCountType } from '@/types/GameTypes.ts';
 
 export interface IDeckService {
-	// Масти карт
-	suits: string[];
-
-	// Значения карт
-	values: string[];
-
 	// Количество карт в колоде
 	cardCount: CardsCountType;
-
-	/**
-	 * Метод инициализации
-	 */
-	initialize: () => void;
-
-	/**
-	 * Устанавливает значения карт по их общему количеству
-	 */
-	setCardsDataByCount: () => void;
 
 	/**
 	 * Возвращает уникальный id карты

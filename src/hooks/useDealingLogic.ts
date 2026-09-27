@@ -29,6 +29,8 @@ const useDealingLogic = (): DealingLogic => {
 		const humanCards = takeCards(humanCount);
 		const botCards = takeCards(botCount);
 
+		if(!humanCards || !botCards) throw new Error('Something wrong with deck!');
+
 		giveCardsToPlayer('human', humanCards);
 		giveCardsToPlayer('bot', botCards);
 	};

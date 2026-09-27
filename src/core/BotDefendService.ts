@@ -3,8 +3,7 @@ import { Random } from '@/utils/Random.ts';
 import CardService from '@/core/CardService.ts';
 
 import { IBotDefendService } from '@/types/core/IBotDefendService.ts';
-import type { TableCard } from '@/types/store/TableStoreType.ts';
-import type { PossibleMoves } from '@/types/GameTypes.ts';
+import type { PossibleMoves, Card as CardType } from '@/types/GameTypes.ts';
 
 const BotDefendService: IBotDefendService = {
 
@@ -13,7 +12,7 @@ const BotDefendService: IBotDefendService = {
 
 		if (!hand || !table || !trumpSuit) throw Error(`gameData wrong!`);
 
-		const unbeatenCards: TableCard[] = TableService.getUnbeatenCards(table);
+		const unbeatenCards: CardType[] = TableService.getUnbeatenCards(table);
 
 		const possibleMoves = BotDefendService.findPossibleDefendMoves(unbeatenCards, hand, trumpSuit);
 

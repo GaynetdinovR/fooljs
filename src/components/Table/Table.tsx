@@ -10,31 +10,35 @@ import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
 
 import type { TableCardPair } from '@/types/store/TableStoreType.ts';
 import type { GameStatus } from '@/types/GameTypes.ts';
+import { resolveTablePairs } from '@/utils/tableResolver.ts';
+import { TableCardObjectsPair } from '@/types/core/ITableService.ts';
 
 const Table = () => {
 	const table: TableCardPair[] = useTable();
 	const status: GameStatus = useStatus();
+
+	const tableCardObjects: TableCardObjectsPair[] = resolveTablePairs(table, 'save');
 
 	const { chosenDefendCard } = useContext(PlayerControlsContext);
 	const { handleTableCardClick } = useGameActionsHandler();
 
 	return (
 		<div className={styles.table}>
-			{table.map((cardPair: TableCardPair, i: number) => {
+			{tableCardObjects.map((cardPair: TableCardObjectsPair, i: number) => {
 				const [attackCard, defendCard] = cardPair;
 
 				const isCardClickable: boolean =
-					!attackCard.isBeaten && status === 'bot-attack' && chosenDefendCard;
+					!defendCard && status === 'bot-attack' && chosenDefendCard;
 
 				return (
 					<div key={`table_card_pair_${i}`} className={styles.table__card_pair}>
 						<Card
 							isClickable={isCardClickable}
-							onClick={() => handleTableCardClick(attackCard, chosenDefendCard)}
+							onClick={() => handleTableCardClick(attackCard.id, chosenDefendCard)}
 							className={styles.table__card_to_beat}
 							frontImage={attackCard.imgPath}
 						/>
-						{attackCard.isBeaten && (
+						{defendCard && (
 							<Card
 								isClickable={false}
 								className={styles.table__card_to_defend}

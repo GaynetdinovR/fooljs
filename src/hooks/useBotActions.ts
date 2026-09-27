@@ -15,6 +15,8 @@ import useStoreActions from '@/utils/hooks/useStoreActions.ts';
 import useGameConditions from '@/hooks/useGameConditions.ts';
 
 import { BotGameData } from '@/types/GameTypes.ts';
+import CardDatabase from '@/core/CardDatabase.ts';
+import { resolveTablePairs } from '@/utils/tableResolver.ts';
 
 type BotActions = {
 	/**
@@ -50,10 +52,10 @@ const useBotActions = (): BotActions => {
 
 		log.withLogger(() => {
 			const gameData: BotGameData = {
-				hand,
+				hand: CardDatabase.getCardsById(hand),
 				humanHandCount: humanHand.length,
-				table,
-				trumpSuit: trumpCard.suit,
+				table: resolveTablePairs(table),
+				trumpSuit: CardDatabase.getCardById(trumpCard).suit,
 			};
 
 			const attackCard = BotAttackService.attack(aiMode, gameData);
@@ -65,7 +67,7 @@ const useBotActions = (): BotActions => {
 				return;
 			}
 
-			attackWithCard(attackCard, 'bot');
+			attackWithCard(attackCard.id, 'bot');
 		}, 'bot attack');
 	};
 
@@ -79,7 +81,11 @@ const useBotActions = (): BotActions => {
 		await delay(formatToMs(Random.getArrayElem(BOT_WAITING_TIMES)));
 
 		log.withLogger(() => {
-			const gameData: BotGameData = { hand, trumpSuit: trumpCard.suit, table };
+			const gameData: BotGameData = {
+				hand: CardDatabase.getCardsById(hand),
+				table: resolveTablePairs(table),
+				trumpSuit: CardDatabase.getCardById(trumpCard).suit,
+			};
 
 			const defendCard = BotDefendService.defend(aiMode, gameData);
 
@@ -87,11 +93,9 @@ const useBotActions = (): BotActions => {
 
 			const { attackCardId, ...card } = defendCard;
 
-			table.forEach((cardPair) => {
-				const attackCard = cardPair[0];
-
-				if (!attackCard.isBeaten && attackCardId === attackCard.id) {
-					defendWithCard(attackCardId, card, 'bot');
+			table.forEach(([attackId, defendId]) => {
+				if (!defendId && attackCardId === attackId) {
+					defendWithCard(attackCardId, card.id, 'bot');
 				}
 			});
 		}, 'bot defend');

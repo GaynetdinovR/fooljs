@@ -9,6 +9,7 @@ const INIT_STORE = {
 	},
 	status: 'in-menu',
 	turn: null,
+	moveNumber: 0,
 	stats: {
 		settings: null,
 		result: 'none',
@@ -33,6 +34,9 @@ const useGameStore = create<GameStoreType>((set) => ({
 	},
 	updateStats: (newStats) => {
 		set(() => ({ stats: newStats }));
+	},
+	incrementMoveNumber: (number = 1) => {
+		set((state) => ({ moveNumber: state.moveNumber + number }))
 	},
 	clearAll: () => set(() => ({ ...INIT_STORE })),
 }));

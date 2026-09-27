@@ -1,11 +1,13 @@
-import { Card as CardType, Suits } from '@/types/GameTypes.ts';
-import type { TableCard, TableCardPair } from '@/types/store/TableStoreType.ts';
+import { Card as CardType, CardId, Suits } from '@/types/GameTypes.ts';
+import type { TableCardPair } from '@/types/store/TableStoreType.ts';
+
+export type TableCardObjectsPair = [CardType, CardType | null];
 
 export type ITableService = {
 	/**
 	 * Возвращает значение: возможна ли атака по правилам игры
 	 */
-	isPossibleToAttack: (card: CardType, table: TableCardPair[], defenderCardsCount: number) => boolean;
+	isPossibleToAttack: (card: CardType, table: TableCardObjectsPair[], defenderCardsCount: number) => boolean;
 
 	/**
 	 * Возвращает значение: возможна ли защита по правилам игры
@@ -15,15 +17,20 @@ export type ITableService = {
 	/**
 	 * Возвращает значение: побиты ли все карты стола
 	 */
-	isTableBeaten: (table: TableCardPair[]) => boolean;
+	isTableBeaten: (table: TableCardObjectsPair[]) => boolean;
 
 	/**
-	 * Возвращает НЕ битые карты со стола
+	 * Возвращает НЕ битые id карт со стола
 	 */
-	getUnbeatenCards: (table: TableCardPair[]) => TableCard[];
+	getUnbeatenCards: (table: TableCardObjectsPair[]) => CardType[];
 
 	/**
-	 * Возвращает все карты стола
+	 * Возвращает все id карт стола
 	 */
-	getAllCards: (table: TableCardPair[]) => CardType[];
+	getAllCards: (table: TableCardPair[]) => CardId[];
+
+	/**
+	 * Возвращает все id атакующих карт стола
+	 */
+	getAllAttackCards: (table: TableCardPair[]) => CardId[];
 };

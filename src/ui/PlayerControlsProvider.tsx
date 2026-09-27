@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import type { Card } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
 
 type PlayerControlsProviderProps = {
@@ -11,7 +11,7 @@ const PlayerControlsProvider = ({ children } : PlayerControlsProviderProps) => {
 	const [isMoveToFallDisabled, setMoveToFallDisabled] = useState<boolean>(true);
 	const [isEndMoveDisabled, setEndMoveDisabled] = useState<boolean>(true);
 
-	const [chosenDefendCard, setChosenDefendCard] = useState<Card | undefined>(undefined);
+	const [chosenDefendCard, setChosenDefendCard] = useState<CardId | undefined>(undefined);
 
 	return (
 		<PlayerControlsContext.Provider

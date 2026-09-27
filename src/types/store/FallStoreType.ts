@@ -1,13 +1,13 @@
-import type { Card } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
 interface FallState {
-	fall: Card[];
+	fall: CardId[];
 }
 
 interface FallActions {
-	updateFall: (newFall: Card[]) => void;
+	updateFall: (fall: CardId[]) => void;
 	clearAll: () => void;
-	moveToFall: (cards: Card[]) => void;
+	moveToFall: (cards: CardId[]) => void;
 }
 
 type FallStoreType = FallState & FallActions;

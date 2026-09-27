@@ -1,9 +1,9 @@
-import type { Card as CardType, CardsCountType } from '@/types/GameTypes.ts';
+import type { Card as CardType, CardId } from '@/types/GameTypes.ts';
 
 /**
  * Возвращает уменьшенное количество карт, которые нужно показать в колоде
  */
-export const getSmalledCardsCountForDeck = ({ length }: CardType[]): number => {
+export const getSmalledCardsCountForDeck = ({ length }: CardId[]): number => {
 	if(length === 1) return 0;
 	if (length > 1 && length < 7) return 1;
 
@@ -13,7 +13,7 @@ export const getSmalledCardsCountForDeck = ({ length }: CardType[]): number => {
 /**
  * Возвращает уменьшенное количество карт, которые нужно показать в бито
  */
-export const getSmalledCardsCountForFall = ({ length }: CardType[]): number => {
+export const getSmalledCardsCountForFall = ({ length }: CardId[]): number => {
 	if (length === 0) return 0;
 
 	return Math.floor(length / 7) + 1;

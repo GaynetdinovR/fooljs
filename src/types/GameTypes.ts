@@ -1,4 +1,5 @@
 import type { TableCardPair } from '@/types/store/TableStoreType.ts';
+import { TableCardObjectsPair } from '@/types/core/ITableService.ts';
 
 export type CardsCountType = 24 | 36 | 52;
 export type GameModeType = 'throw-in' | 'with passing';
@@ -30,7 +31,7 @@ export type GameSettings = {
 };
 
 export type Suits = 'Heart' | 'Club' | 'Spade' | 'Diamond';
-
+export type CardId = string;
 export type Colors = 'black' | 'red';
 
 export type Card = {
@@ -49,7 +50,7 @@ export type PossibleMoves = {
 
 export type BotGameData = {
 	hand: Card[],
-	table: TableCardPair[],
+	table: TableCardObjectsPair[],
 	humanHandCount?: number,
 	trumpSuit: Suits
 }

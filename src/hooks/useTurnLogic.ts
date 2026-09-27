@@ -4,6 +4,7 @@ import useGameData from '@/utils/hooks/useGameData.ts';
 import useStoreActions from '@/utils/hooks/useStoreActions.ts';
 import useDeckStore from '@/stores/deckStore.ts';
 import { GAME_STATUS } from '@/data/constants.ts';
+import CardDatabase from '@/core/CardDatabase.ts';
 
 type TurnLogicType = {
 	/**
@@ -14,7 +15,7 @@ type TurnLogicType = {
 	 * Установка первого игрока
 	 * TODO: trumpCard - костыль
 	 */
-	setFirstTurn: () => void;
+	setFirstTurn: () => Players;
 	/**
 	 * Смена хода
 	 */
@@ -32,13 +33,18 @@ const useTurnLogic = (): TurnLogicType => {
 	};
 
 	const setFirstTurn = () => {
-		const { trumpCard } = useDeckStore.getState?.();
+		const { trumpCard } = useDeckStore.getState();
 
 		if (!trumpCard) throw Error('Trump card not found!');
 
-		const turn = PlayerService.findWhoseFirstTurn(human, bot, trumpCard.suit);
+		const humanCards = CardDatabase.getCardsById(human);
+		const botCards = CardDatabase.getCardsById(bot);
+		const trumpSuit = CardDatabase.getCardById(trumpCard).suit;
+
+		const turn = PlayerService.findWhoseFirstTurn(humanCards, botCards, trumpSuit);
 
 		setTurn(turn);
+		return turn;
 	};
 
 	const changeTurn = () => {

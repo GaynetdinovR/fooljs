@@ -10,20 +10,20 @@ const usePlayersStore = create<PlayersStoreType>((set, get) => ({
 	...INIT_STORE,
 	updateHumanHand: (hand) => set({ human: hand }),
 	updateBotHand: (hand) => set({ bot: hand }),
-	giveCardToPlayer: (player, card) => {
+	giveCardToPlayer: (player, cardId) => {
 		const currentHand = get()[player];
 
-		set({ [player]: [...currentHand, card] });
+		set({ [player]: [...currentHand, cardId] });
 	},
-	giveCardsToPlayer: (player, cards) => {
+	giveCardsToPlayer: (player, cardsId) => {
 		const currentHand = get()[player];
 
-		set({ [player]: [...currentHand, ...cards] });
+		set({ [player]: [...currentHand, ...cardsId] });
 	},
-	removeCardFromPlayer: (player, card) => {
+	removeCardFromPlayer: (player, cardId) => {
 		const currentHand = get()[player];
 
-		const arrayFiltered = currentHand.filter((handCard) => handCard.id !== card.id);
+		const arrayFiltered = currentHand.filter((handCardId) => handCardId !== cardId);
 
 		set({ [player]: arrayFiltered });
 	},

@@ -1,8 +1,10 @@
 import useGameData from '@/utils/hooks/useGameData.ts';
 
-import DeckService from '@/core/DeckService.ts';
-
 import useDeckStore from '@/stores/deckStore.ts';
+import CardDatabase from '@/core/CardDatabase.ts';
+
+import { shuffle } from '@/utils/utils.ts';
+import { CardId } from '@/types/GameTypes.ts';
 
 const useDeckInit = (): { initDeck: () => void } => {
 	const { settings } = useGameData();
@@ -12,13 +14,10 @@ const useDeckInit = (): { initDeck: () => void } => {
 	 * Инициализирует колоду и козырь
  	 */
 	const initDeck = () => {
-		if (!settings) throw Error('Settings not set!');
+		CardDatabase.initCurrent(settings.cardsCount);
 
-		const deckCore = new DeckService(settings.cardsCount);
-
-		const deck = deckCore.bundleDeck();
-		const shuffledDeck = deckCore.shuffleDeck(deck);
-		const trumpCard = shuffledDeck[shuffledDeck.length - 1];
+		const shuffledDeck: CardId[] = shuffle<CardId>(CardDatabase.getCurrentIds());
+		const trumpCard: CardId = shuffledDeck[shuffledDeck.length - 1];
 
 		updateDeck(shuffledDeck);
 		updateTrumpCard(trumpCard);

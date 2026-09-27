@@ -3,22 +3,24 @@ import NullCard from '@/ui/NullCard.tsx';
 import Card from '@/ui/Card.tsx';
 import styles from '@/styles/modules/Deck.module.sass';
 
-import type { Card as CardType } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
+import CardDatabase from '@/core/CardDatabase.ts';
 
 const TrumpCard = () => {
-	const deck: CardType[] = useDeck();
-	const trumpCard: CardType = useTrumpCard();
+	const deck: CardId[] = useDeck();
+	const trumpCard: CardId = useTrumpCard();
 
-	const isTrumpCardNotExists: boolean = !trumpCard;
+	const trumpCardObject = CardDatabase.tryGetCardById(trumpCard);
+
 	const isDeckEmpty: boolean = deck.length === 0;
 
-	if (isTrumpCardNotExists) return;
-	if (isDeckEmpty) return <NullCard frontImage={trumpCard.imgPath} />;
+	if (!trumpCardObject) return;
+	if (isDeckEmpty) return <NullCard frontImage={trumpCardObject.imgPath} />;
 
 	return (
 		<Card
 			className={styles.deck__trump_card}
-			frontImage={trumpCard?.imgPath}
+			frontImage={trumpCardObject?.imgPath}
 			isClickable={false}
 		/>
 	);
