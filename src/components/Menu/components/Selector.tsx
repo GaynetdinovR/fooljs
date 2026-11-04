@@ -11,7 +11,7 @@ type SelectorProps<T> = {
 	label: string;
 };
 
-const Selector = <T,>({
+const Selector = <T extends string | number,>({
 	onChange,
 	isDisabled,
 	options,

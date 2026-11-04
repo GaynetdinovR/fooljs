@@ -1,5 +1,6 @@
 import { create } from 'zustand/react';
 import type GameStoreType from '@/types/store/GameStoreType.ts';
+import type { GameState } from '@/types/store/GameStoreType.ts';
 
 const INIT_STORE = {
 	settings: {
@@ -8,13 +9,13 @@ const INIT_STORE = {
 		gameMode: 'throw-in',
 	},
 	status: 'in-menu',
-	turn: null,
+	turn: undefined,
 	moveNumber: 0,
 	stats: {
-		settings: null,
+		settings: undefined,
 		result: 'none',
 	},
-};
+} satisfies GameState;
 
 const useGameStore = create<GameStoreType>((set) => ({
 	...INIT_STORE,
@@ -27,7 +28,6 @@ const useGameStore = create<GameStoreType>((set) => ({
 			turn: newTurn,
 		})),
 	updateStatus: (newStatus) => {
-		console.log(newStatus);
 		set(() => ({
 			status: newStatus,
 		}));

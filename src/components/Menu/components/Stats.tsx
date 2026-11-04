@@ -10,7 +10,7 @@ const Stats = () => {
 	/* Если ИИ победил - красный, Игрок - зелёный, в других случаях - серый */
 	const color = stats.result === PLAYERS[0] ? 'green' : stats.result === PLAYERS[1] ? 'red' : 'grey';
 
-	if (stats.settings === null) return null;
+	if (!stats.settings) return;
 
 	return (
 		<div className={classNames(styles.menu__game_data, styles.menu__stats)}>

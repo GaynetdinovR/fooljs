@@ -4,7 +4,7 @@ type NullCardProps = {
 	frontImage?: string | undefined;
 };
 
-const NullCard = ({ frontImage = null }: NullCardProps) => {
+const NullCard = ({ frontImage = undefined }: NullCardProps) => {
 	const isFrontImgExists: boolean = !!frontImage;
 
 	return (

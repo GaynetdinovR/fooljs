@@ -1,9 +1,10 @@
 import type { GameModeType } from '@/types/GameTypes.ts';
 import { gameModeLocal } from '@/data/localization.ts';
 import Selector from '@/components/Menu/components/Selector.tsx';
+import type { NewSettings } from '@/types/store/GameStoreType.ts';
 
 type GameModeSelectorProps = {
-	updateSettings: (newSettings: { gameMode: string }) => void;
+	updateSettings: (newSettings: NewSettings) => void;
 };
 
 const GameModeSelector = ({ updateSettings }: GameModeSelectorProps) => {

@@ -5,32 +5,38 @@ import { Random } from '@/utils/Random.ts';
 
 import type { Card as CardType } from '@/types/GameTypes.ts';
 import type { IBotAttackService } from '@/types/core/IBotAttackService.ts';
+import BotAttackStrategy from '@/core/BotAttackStrategy.ts';
 
 const BotAttackService: IBotAttackService = {
 	attack: (aiMode, gameData) => {
-		const { hand, table, humanHandCount, trumpSuit } = gameData;
+		const { hand, table, opponentHandCount, trumpCard } = gameData;
 
-		if (!hand || !table || !trumpSuit) throw Error(`gameData wrong!`);
+		if (!hand || !table || !trumpCard || opponentHandCount === undefined) {
+			throw Error(`gameData wrong!`);
+		}
 
-		const possibleMoves = BotAttackService.findPossibleAttackMoves(hand, table, humanHandCount);
+		const possibleMoves = BotAttackService.findPossibleAttackMoves(hand, table, opponentHandCount);
 
 		if (possibleMoves.length === 0) return;
 
 		switch (aiMode) {
 			case 'fool':
-				return BotAttackService.foolAttack(possibleMoves, gameData);
+				return BotAttackService.foolAttack(possibleMoves);
 			case 'easy':
 				return BotAttackService.easyAttack(possibleMoves, gameData);
+			case 'medium':
+				return BotAttackService.mediumAttack(possibleMoves, gameData);
 			default:
-				return BotAttackService.foolAttack(possibleMoves, gameData);
+				return BotAttackService.foolAttack(possibleMoves);
 		}
 	},
 
-	findPossibleAttackMoves: (hand, table, humanHandCount) => {
+	findPossibleAttackMoves: (hand, table, opponentHandCount) => {
 		const possibleMoves: CardType[] = [];
+		const ctx = TableService.prepareAttackContext(table);
 
 		for (const card of hand) {
-			if (!TableService.isPossibleToAttack(card, table, humanHandCount)) continue;
+			if (!TableService.isPossibleToAttackFast(card, ctx, opponentHandCount)) continue;
 
 			possibleMoves.push(card);
 		}
@@ -38,17 +44,17 @@ const BotAttackService: IBotAttackService = {
 		return possibleMoves;
 	},
 
-	foolAttack: (possibleMoves, gameData) => {
+	foolAttack: (possibleMoves) => {
 		return Random.getArrayElem<CardType>(possibleMoves);
 	},
 
-	easyAttack: (possibleMoves, { trumpSuit }) => {
-		return CardService.getLowestCard(possibleMoves, trumpSuit);
+	easyAttack: (possibleMoves, { trumpCard }) => {
+		return CardService.getLowestCard(possibleMoves, trumpCard.suit);
 	},
 
 	mediumAttack: (possibleMoves, gameData) => {
-		return Random.getArrayElem<CardType>(possibleMoves);
-	}
+		return BotAttackStrategy.chooseCardToAttackByPriority(possibleMoves, gameData);
+	},
 };
 
 export default BotAttackService;

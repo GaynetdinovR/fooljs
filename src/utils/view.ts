@@ -1,4 +1,4 @@
-import type { Card as CardType, CardId } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
 /**
  * Возвращает уменьшенное количество карт, которые нужно показать в колоде

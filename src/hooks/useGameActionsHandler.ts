@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
+import { usePlayerControls } from '@/ui/PlayerControlsContext.tsx';
 
 import useGameLogic from '@/hooks/useGameLogic.ts';
 import usePlayerActions from '@/hooks/usePlayerActions.ts';
@@ -13,7 +12,7 @@ type GameActionsHandlerType = {
 	handleRaiseClick: () => void;
 	handleMoveToFallClick: () => void;
 	handleEndMoveClick: () => void;
-	handleTableCardClick: (attackCard: CardId, defendCard: CardId) => void;
+	handleTableCardClick: (attackCard: CardId | undefined, defendCard: CardId | undefined) => void;
 };
 
 /**
@@ -25,7 +24,7 @@ const useGameActionsHandler = (): GameActionsHandlerType => {
 	const { moveToFallActions, raiseActions, endMoveActions } = useGameLogic();
 
 	const { setMoveToFallDisabled, setChosenDefendCard, setRaiseDisabled, setEndMoveDisabled } =
-		useContext(PlayerControlsContext);
+		usePlayerControls();
 
 	const handleCardClick = (card) => {
 		switch (status) {
@@ -45,7 +44,7 @@ const useGameActionsHandler = (): GameActionsHandlerType => {
 	const handleRaiseClick = () => {
 		raiseActions('human');
 
-		setChosenDefendCard(null);
+		setChosenDefendCard(undefined);
 		setRaiseDisabled(true);
 	};
 
@@ -66,7 +65,7 @@ const useGameActionsHandler = (): GameActionsHandlerType => {
 
 		defend(attackCard, defendCard);
 
-		setChosenDefendCard(null);
+		setChosenDefendCard(undefined);
 	};
 
 	return {

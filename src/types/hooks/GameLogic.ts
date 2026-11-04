@@ -1,4 +1,4 @@
-import type { GameResults, Players } from '@/types/GameTypes.ts';
+import type { Players } from '@/types/GameTypes.ts';
 
 export type GameLogic = {
 	/**
@@ -23,8 +23,4 @@ export type GameLogic = {
 	 * TODO: карты раздаются прежде чем карты берутся со стола
 	 */
 	endMoveActions: (attackingPlayer: Players) => void;
-	/**
-	 * Возвращает победителя
-	 */
-	getGameResults: () => GameResults;
 };

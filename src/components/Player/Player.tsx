@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import styles from '@/styles/modules/Player.module.sass';
 import classNames from 'classnames';
 
@@ -10,25 +9,28 @@ import useGameActionsHandler from '@/hooks/useGameActionsHandler.ts';
 import CardService from '@/core/CardService.ts';
 
 import Card from '@/ui/Card.tsx';
-import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
 
 import type { CardId, GameStatus } from '@/types/GameTypes.ts';
 import CardDatabase from '@/core/CardDatabase.ts';
+import { usePlayerControls } from '@/ui/PlayerControlsContext.tsx';
 
 const Player = () => {
-	const trumpCard: CardId = useTrumpCard();
+	const trumpCard: CardId | undefined = useTrumpCard();
 	const status: GameStatus = useStatus();
 	const hand: CardId[] = useHumanHand();
 
 	const handCardObjects = CardDatabase.tryGetCardsById(hand);
-	const trumpCardObject = CardDatabase.tryGetCardById(trumpCard);
 
 	const { isRaiseDisabled, isMoveToFallDisabled, isEndMoveDisabled, chosenDefendCard } =
-		useContext(PlayerControlsContext);
+		usePlayerControls();
 	const { handleCardClick, handleRaiseClick, handleEndMoveClick, handleMoveToFallClick } =
 		useGameActionsHandler();
 
-	if (!trumpCardObject) return null;
+	if (!trumpCard) return;
+
+	const trumpCardObject = CardDatabase.getCardById(trumpCard);
+
+	if (!trumpCardObject) return;
 
 	return (
 		<div className={styles.player}>
@@ -36,7 +38,7 @@ const Player = () => {
 				{handCardObjects && CardService.sortCards(handCardObjects, trumpCardObject.suit).map((card) => {
 					const shouldShowDefendStyle: boolean =
 						status === 'bot-attack' &&
-						chosenDefendCard &&
+						!!chosenDefendCard &&
 						card.id === chosenDefendCard;
 
 					const cardClass: string = classNames(styles.player__card, {

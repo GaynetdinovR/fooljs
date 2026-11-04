@@ -1,6 +1,6 @@
 import type { AiModeType, BotGameData, Card as CardType, PossibleMoves, Suits } from '@/types/GameTypes.ts';
 
-type DefendCardWithId = CardType & { attackCardId: string };
+export type DefendCardWithId = CardType & { attackCardId: string };
 
 export type IBotDefendService = {
 	/**
@@ -30,4 +30,5 @@ export type IBotDefendService = {
 	 * @param gameData
 	 */
 	easyDefend: (possibleMoves: PossibleMoves, gameData: BotGameData) => DefendCardWithId | undefined,
+	mediumDefend: (possibleMoves: PossibleMoves, gameData: BotGameData) => DefendCardWithId | undefined,
 }

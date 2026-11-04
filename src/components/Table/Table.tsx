@@ -1,25 +1,24 @@
 import styles from '@/styles/modules/Table.module.sass';
-import { useContext } from 'react';
 
 import { useTable } from '@/stores/tableStore.ts';
 import { useStatus } from '@/stores/gameStore.ts';
 import useGameActionsHandler from '@/hooks/useGameActionsHandler.ts';
 
 import Card from '@/ui/Card.tsx';
-import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
+import { usePlayerControls } from '@/ui/PlayerControlsContext.tsx';
 
 import type { TableCardPair } from '@/types/store/TableStoreType.ts';
 import type { GameStatus } from '@/types/GameTypes.ts';
-import { resolveTablePairs } from '@/utils/tableResolver.ts';
 import { TableCardObjectsPair } from '@/types/core/ITableService.ts';
+import GameDataResolver from '@/core/GameDataResolver.ts';
 
 const Table = () => {
 	const table: TableCardPair[] = useTable();
 	const status: GameStatus = useStatus();
 
-	const tableCardObjects: TableCardObjectsPair[] = resolveTablePairs(table, 'save');
+	const tableCardObjects: TableCardObjectsPair[] = GameDataResolver.resolveTablePairs(table);
 
-	const { chosenDefendCard } = useContext(PlayerControlsContext);
+	const { chosenDefendCard } = usePlayerControls();
 	const { handleTableCardClick } = useGameActionsHandler();
 
 	return (
@@ -28,7 +27,7 @@ const Table = () => {
 				const [attackCard, defendCard] = cardPair;
 
 				const isCardClickable: boolean =
-					!defendCard && status === 'bot-attack' && chosenDefendCard;
+					!defendCard && status === 'bot-attack' && !!chosenDefendCard;
 
 				return (
 					<div key={`table_card_pair_${i}`} className={styles.table__card_pair}>

@@ -1,9 +1,8 @@
-import { RULES } from '@/data/rules.ts';
-
 import useDeckStore from '@/stores/deckStore.ts';
 import usePlayersStore from '@/stores/playersStore.ts';
 
 import useGameData from '@/utils/hooks/useGameData.ts';
+import DealingService from '@/core/DealingService.ts';
 
 type DealingLogic = {
 	/**
@@ -25,43 +24,30 @@ const useDealingLogic = (): DealingLogic => {
 	const { takeCards } = useDeckStore();
 	const { giveCardsToPlayer } = usePlayersStore();
 
-	const dealCardsToBothPlayers = (humanCount, botCount) => {
+	const dealCardsToBothPlayers = (humanCount: number, botCount: number) => {
 		const humanCards = takeCards(humanCount);
 		const botCards = takeCards(botCount);
 
-		if(!humanCards || !botCards) throw new Error('Something wrong with deck!');
+		if (!humanCards || !botCards) throw new Error('Something wrong with deck!');
 
 		giveCardsToPlayer('human', humanCards);
 		giveCardsToPlayer('bot', botCards);
 	};
 
 	const dealCardsEvenly = () => {
-		if (deck.length % 2 === 0) {
-			return dealCardsToBothPlayers(deck.length / 2, deck.length / 2);
-		}
+		const [toHuman, toBot] = DealingService.getEvenDealCounts(human, bot, deck.length);
 
-		const moreThanHalf = Math.ceil(deck.length / 2);
-		const lessThanHalf = Math.floor(deck.length / 2);
-
-		if (human.length > bot.length) {
-			return dealCardsToBothPlayers(moreThanHalf, lessThanHalf);
-		}
-
-		dealCardsToBothPlayers(lessThanHalf, moreThanHalf);
+		dealCardsToBothPlayers(toHuman, toBot);
 	};
 
 	const dealCards = () => {
-		let dealToBot = Math.max(0, RULES.fool.cardsPerPlayer - bot.length);
-		let dealToHuman = Math.max(0, RULES.fool.cardsPerPlayer - human.length);
+		if (DealingService.shouldDealEvenly(human, bot, deck.length)) return dealCardsEvenly();
 
-		if (deck.length + dealToBot + dealToHuman === 0) return;
+		const [toHuman, toBot] = DealingService.getDealCounts(human, bot, deck.length);
 
-		if (dealToHuman === 0 && deck.length < dealToBot) dealToBot = deck.length;
-		if (dealToBot === 0 && deck.length < dealToHuman) dealToHuman = deck.length;
-		if (dealToBot !== 0 && dealToHuman !== 0 && deck.length < dealToHuman + dealToBot)
-			return dealCardsEvenly();
+		if (toHuman === 0 && toBot === 0) return;
 
-		dealCardsToBothPlayers(dealToHuman, dealToBot);
+		dealCardsToBothPlayers(toHuman, toBot);
 	};
 
 	return {

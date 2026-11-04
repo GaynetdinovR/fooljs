@@ -12,7 +12,7 @@ type IGameService = {
 	 * @param gameCardsCount
 	 */
 	getGamePhase: (
-		cardsCount: { deck: number; human: number; bot: number; fall: number },
+		cardsCount: { deck: number, fall: number },
 		gameCardsCount: number,
 	) => GamePhase
 }
@@ -20,18 +20,15 @@ type IGameService = {
 const GameService: IGameService = {
 
 		getGamePhase: (cardsCount, gameCardsCount) => {
-			const { deck, human, bot, fall } = cardsCount;
+			const { deck } = cardsCount;
 
 			const oneThird = Math.floor(gameCardsCount / 3);
-			const twoThirds = Math.floor((2 * gameCardsCount) / 3);
 
-			if (deck > oneThird && fall < oneThird) return '1';
+			if (deck > oneThird) return '1';
 
-			if (deck <= oneThird && deck > 4 && fall >= oneThird) return '2';
+			if (deck <= oneThird && deck > 4) return '2';
 
-			if (human + bot > twoThirds && fall < oneThird) return '2.5';
-
-			if (deck <= 4 && fall >= oneThird) return '3';
+			if (deck <= 4) return '3';
 
 			return '2';
 		},

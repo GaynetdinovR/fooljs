@@ -1,11 +1,12 @@
-import type { TableCardPair } from '@/types/store/TableStoreType.ts';
 import { TableCardObjectsPair } from '@/types/core/ITableService.ts';
+import type { Move } from '@/types/store/MoveHistoryType.ts';
 
 export type CardsCountType = 24 | 36 | 52;
 export type GameModeType = 'throw-in' | 'with passing';
 export type AiModeType = 'random' | 'fool' | 'easy' | 'medium' | 'hard' | 'extreme';
 
 export type GameDataOptions = 'gameMode' | 'aiMode' | 'cardsCount';
+export type MoveWithCardObject = Omit<Move, 'cardIds' | 'attackCardId'> & { cards: Card[], attackCard?: Card | undefined}
 
 export type GameStatus =
 	| 'in-menu'
@@ -45,14 +46,18 @@ export type Card = {
 };
 
 export type PossibleMoves = {
-	[key: string]: string[];
+	[key: CardId]: CardId[];
 };
 
 export type BotGameData = {
 	hand: Card[],
 	table: TableCardObjectsPair[],
-	humanHandCount?: number,
-	trumpSuit: Suits
+	trumpCard: Card,
+	fall: Card[],
+	deckLength: number,
+	cardsCount: CardsCountType,
+	history: MoveWithCardObject[],
+	opponentHandCount?: number,
 }
 
 export type GamePhase = '1' | '2' | '2.5' | '3';

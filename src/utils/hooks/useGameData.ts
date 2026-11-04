@@ -3,7 +3,6 @@ import useDeckStore from '@/stores/deckStore.ts';
 import useFallStore from '@/stores/fallStore.ts';
 import useTableStore from '@/stores/tableStore.ts';
 import useGameStore from '@/stores/gameStore.ts';
-import useBotMemoryStore from '@/stores/botMemoryStore.ts';
 import useMoveHistoryStore from '@/stores/moveHistoryStore.ts';
 
 /**

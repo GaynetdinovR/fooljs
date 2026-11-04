@@ -1,9 +1,10 @@
 import type { AiModeType } from '@/types/GameTypes.ts';
 import { aiModeLocal } from '@/data/localization.ts';
 import Selector from '@/components/Menu/components/Selector.tsx';
+import type { NewSettings } from '@/types/store/GameStoreType.ts';
 
 type AiModeSelectorProps = {
-	updateSettings: (newSettings: { aiMode: string }) => void;
+	updateSettings: (newSettings: NewSettings) => void;
 	isGameOn: boolean;
 };
 

@@ -6,7 +6,7 @@ import { useTrumpCard } from '@/stores/deckStore.ts';
 
 import type { Card as CardType, Players } from '@/types/GameTypes.ts';
 import CardDatabase from '@/core/CardDatabase.ts';
-import { resolveTablePairs } from '@/utils/tableResolver.ts';
+import GameDataResolver from '@/core/GameDataResolver.ts';
 
 type TableServiceType = {
 	/**
@@ -26,7 +26,7 @@ const useTableService = (): TableServiceType => {
 
 	const isPossibleToAttack = (card, attackedPlayer) => {
 		const attackCard = CardDatabase.getCardById(card);
-		const tableCards = resolveTablePairs(table);
+		const tableCards = GameDataResolver.resolveTablePairs(table);
 
 		return TableService.isPossibleToAttack(attackCard, tableCards, players[attackedPlayer].length);
 	};
@@ -34,6 +34,8 @@ const useTableService = (): TableServiceType => {
 	const isPossibleToDefend = (attackCard, defendCard) => {
 		const attackCardObject = CardDatabase.getCardById(attackCard);
 		const defendCardObject = CardDatabase.getCardById(defendCard);
+
+		if(!trumpCard) return false;
 		const trumpCardObject = CardDatabase.getCardById(trumpCard);
 
 		return TableService.isPossibleToDefend(attackCardObject, defendCardObject, trumpCardObject.suit);

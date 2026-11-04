@@ -12,15 +12,15 @@ type SettingCarouselProps<T> = {
 	formatValue?: (value: T) => string;
 };
 
-const SettingCarousel = <T,>({
+const SettingCarousel = <T extends string | number,>({
 	className,
 	options,
 	value,
 	disabled,
 	onChange,
-	formatValue = (value) => value,
+	formatValue = (value) => String(value),
 }: SettingCarouselProps<T>) => {
-	const [direction, setDirection] = useState<'left' | 'right'>('');
+	const [direction, setDirection] = useState<'left' | 'right' | ''>('');
 
 	const handleChange = (newDirection: 'left' | 'right'): void => {
 		setDirection(newDirection);

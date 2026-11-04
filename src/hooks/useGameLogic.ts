@@ -18,11 +18,18 @@ import type { CardId, Players } from '@/types/GameTypes.ts';
 import type { GameLogic } from '@/types/hooks/GameLogic.ts';
 
 import useGameStore from '@/stores/gameStore.ts';
-import PlayerModelService from '@/core/PlayerModelService.ts';
-import useMoveHistoryStore from '@/stores/moveHistoryStore.ts';
+import GameDataResolver from '@/core/GameDataResolver.ts';
+import GameResultsService from '@/core/GameResultsService.ts';
 
 const useGameLogic = (): GameLogic => {
-	const { table, status, human, bot, settings, history } = useGameData();
+	const gameData = useGameData();
+	const {
+		table,
+		status,
+		settings,
+		human,
+		bot,
+	} = gameData;
 
 	const {
 		updateStatus,
@@ -42,6 +49,8 @@ const useGameLogic = (): GameLogic => {
 
 	const startGameActions = () => {
 		if (status === 'dealing') return;
+
+		GameDataResolver.resetCache();
 
 		initDeck();
 
@@ -67,8 +76,6 @@ const useGameLogic = (): GameLogic => {
 
 				incrementMoveNumber(1);
 
-				console.log(PlayerModelService.buildCardKnowledge(useMoveHistoryStore.getState().history, 3));
-
 				changeTurn();
 
 				dealCards();
@@ -93,8 +100,6 @@ const useGameLogic = (): GameLogic => {
 			cardIds: cards,
 		});
 
-		console.log(PlayerModelService.buildCardKnowledge(useMoveHistoryStore.getState().history, 3));
-
 		incrementMoveNumber(1);
 
 		clearTable();
@@ -105,29 +110,17 @@ const useGameLogic = (): GameLogic => {
 	};
 
 	const endGameActions = () => {
-		updateStats({ settings, result: getGameResults() });
+		updateStats({ settings, result: GameResultsService.getResults({ handA: human, handB: bot }) });
 
 		updateStatus('game-over');
 
-		console.log(history);
-
 		clearAll();
-	};
-
-	const getGameResults = () => {
-		if (!isGameEnd()) return 'none';
-		if (human.length === 0 && bot.length === 0) return 'draw';
-		if (human.length === 0 && bot.length !== 0) return 'human';
-		if (human.length !== 0 && bot.length === 0) return 'bot';
-
-		return 'none';
 	};
 
 	return {
 		startGameActions,
 		moveToFallActions,
 		endGameActions,
-		getGameResults,
 		endMoveActions,
 		raiseActions,
 	};

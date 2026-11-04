@@ -1,15 +1,26 @@
-import type { GameResults, GameSettings, GameStatus, Players } from '@/types/GameTypes.ts';
+import type {
+	GameResults,
+	GameSettings,
+	GameStatus,
+	Players,
+} from '@/types/GameTypes.ts';
 
-interface GameState {
+export interface GameState {
 	settings: GameSettings;
 	status: GameStatus;
-	turn: Players | null;
+	turn: Players | undefined;
 	moveNumber: number;
+	stats: {
+		settings: GameSettings | undefined;
+		result: GameResults;
+	};
 }
 
+export type NewSettings = Partial<GameSettings>;
+
 interface GameActions {
-	updateSettings: (newSettings: GameSettings) => void;
-	updateTurn: (newTurn: Players | null) => void;
+	updateSettings: (newSettings: NewSettings) => void;
+	updateTurn: (newTurn: Players | undefined) => void;
 	updateStatus: (newStatus: GameStatus) => void;
 	updateStats: (newStats: { settings: GameSettings; result: GameResults }) => void;
 	incrementMoveNumber: (number: number) => void;

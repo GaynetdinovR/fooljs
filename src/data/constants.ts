@@ -1,4 +1,5 @@
 import type { Players } from '@/types/GameTypes.ts';
+import { CardsCountType } from '@/types/GameTypes.ts';
 
 export const PLAYERS = ['human', 'bot'] as const;
 
@@ -20,3 +21,8 @@ export const MENU_ANIMATION = {
 	},
 } as const;
 
+export const POWER_RANGE: Record<CardsCountType, { min: number; max: number }> = {
+	24: { min: 9, max: 14 },
+	36: { min: 6, max: 14 },
+	52: { min: 2, max: 14 },
+};

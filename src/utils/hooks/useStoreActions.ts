@@ -4,7 +4,7 @@ import useGameStore from '@/stores/gameStore.ts';
 import usePlayersStore from '@/stores/playersStore.ts';
 import useTableStore from '@/stores/tableStore.ts';
 
-import type { Card as CardType, CardId, Players } from '@/types/GameTypes.ts';
+import type { CardId, Players } from '@/types/GameTypes.ts';
 import useMoveHistoryStore from '@/stores/moveHistoryStore.ts';
 
 /**

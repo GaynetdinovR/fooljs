@@ -19,7 +19,14 @@ export type ICardService = {
 	 * Находит меньшую по масти карту среди множества
 	 */
 	findLowestSuit: (cards: CardType[], suit: Suits) => CardType | undefined
-
+	/**
+	 * Находит наибольшую НЕ козырную карту
+	 */
+	getHighestNonTrump: (cards: CardType[], trumpSuit: Suits) => CardType | undefined
+	/**
+	 * Находит наибольшую карту(в т.ч. козыри)
+	 */
+	getHighestCard: (cards: CardType[], trumpSuit: Suits) => CardType
 	/**
 	 * Находит наименьшую НЕ козырную карту
 	 */

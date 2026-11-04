@@ -2,14 +2,14 @@ import styles from '@/styles/modules/Ui.module.sass';
 import classNames from 'classnames';
 
 interface CardProps {
-	frontImage?: string | null;
+	frontImage?: string | undefined;
 	isClickable?: boolean;
 	onClick?: () => void;
 	className?: string;
 }
 
 const Card = ({
-	frontImage,
+	frontImage = undefined,
 	isClickable = true,
 	onClick = () => {},
 	className,

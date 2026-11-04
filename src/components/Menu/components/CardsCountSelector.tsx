@@ -1,8 +1,9 @@
 import type { CardsCountType } from '@/types/GameTypes.ts';
 import Selector from '@/components/Menu/components/Selector.tsx';
+import type { NewSettings } from '@/types/store/GameStoreType.ts';
 
 type CardsCountSelectorProps = {
-	updateSettings: (newSettings: { cardsCount: number }) => void;
+	updateSettings: (newSettings: NewSettings) => void;
 	isGameOn: boolean;
 };
 

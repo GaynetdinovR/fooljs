@@ -14,9 +14,7 @@ import useGameData from '@/utils/hooks/useGameData.ts';
 import useStoreActions from '@/utils/hooks/useStoreActions.ts';
 import useGameConditions from '@/hooks/useGameConditions.ts';
 
-import { BotGameData } from '@/types/GameTypes.ts';
-import CardDatabase from '@/core/CardDatabase.ts';
-import { resolveTablePairs } from '@/utils/tableResolver.ts';
+import GameDataResolver from '@/core/GameDataResolver.ts';
 
 type BotActions = {
 	/**
@@ -34,29 +32,38 @@ type BotActions = {
 };
 
 const useBotActions = (): BotActions => {
-	const {
+	const  {
 		bot: hand,
 		human: humanHand,
-		trumpCard,
 		table,
-		settings: { aiMode },
+		trumpCard,
+		fall,
+		deck,
+		history,
+		settings: { aiMode, cardsCount },
 		status,
-	} = useGameData();
+	}= useGameData();
 
 	const { attackWithCard, defendWithCard } = useStoreActions();
 	const { raiseActions, moveToFallActions, endMoveActions } = useGameLogic();
 	const { isTableBeaten } = useGameConditions();
 
 	const attack = async () => {
-		await delay(formatToMs(Random.getArrayElem(BOT_WAITING_TIMES)));
+		await delay(formatToMs(Random.getArrayElemStrict<number>(BOT_WAITING_TIMES)));
 
 		log.withLogger(() => {
-			const gameData: BotGameData = {
-				hand: CardDatabase.getCardsById(hand),
-				humanHandCount: humanHand.length,
-				table: resolveTablePairs(table),
-				trumpSuit: CardDatabase.getCardById(trumpCard).suit,
-			};
+			if(!trumpCard) throw 'Trump not exists!';
+
+			const gameData = GameDataResolver.resolveBotGameData({
+				hand,
+				table,
+				trumpCard,
+				fall,
+				deck,
+				cardsCount,
+				history,
+				opponentHandCount: humanHand.length,
+			});
 
 			const attackCard = BotAttackService.attack(aiMode, gameData);
 
@@ -78,14 +85,21 @@ const useBotActions = (): BotActions => {
 	};
 
 	const defend = async () => {
-		await delay(formatToMs(Random.getArrayElem(BOT_WAITING_TIMES)));
+		await delay(formatToMs(Random.getArrayElemStrict<number>(BOT_WAITING_TIMES)));
 
 		log.withLogger(() => {
-			const gameData: BotGameData = {
-				hand: CardDatabase.getCardsById(hand),
-				table: resolveTablePairs(table),
-				trumpSuit: CardDatabase.getCardById(trumpCard).suit,
-			};
+			if(!trumpCard) throw 'Trump not exists!';
+
+			const gameData = GameDataResolver.resolveBotGameData({
+				hand,
+				table,
+				trumpCard,
+				fall,
+				deck,
+				cardsCount,
+				history,
+				opponentHandCount: humanHand.length,
+			});
 
 			const defendCard = BotDefendService.defend(aiMode, gameData);
 

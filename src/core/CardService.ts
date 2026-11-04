@@ -2,104 +2,133 @@ import type { Card as CardType } from '@/types/GameTypes.ts';
 import { ICardService } from '@/types/core/ICardService.ts';
 
 const CardService: ICardService = {
-	findCardsIntersection: (firstCardsArray, secondCardsArray) => {
-		return firstCardsArray.filter((card1) =>
-			secondCardsArray.some((card2) => card1.id === card2.id),
-		);
-	},
+		findCardsIntersection: (firstCardsArray, secondCardsArray) => {
+			return firstCardsArray.filter((card1) =>
+				secondCardsArray.some((card2) => card1.id === card2.id),
+			);
+		},
 
-	findCardsDifference: (firstCardsArray, secondCardsArray) => {
-		return firstCardsArray.filter(
-			(card1) => !secondCardsArray.some((card2) => card1.id === card2.id),
-		);
-	},
+		findCardsDifference: (firstCardsArray, secondCardsArray) => {
+			return firstCardsArray.filter(
+				(card1) => !secondCardsArray.some((card2) => card1.id === card2.id),
+			);
+		},
 
-	deleteCardFromArray: (cardId, array) => {
-		const filteredArray: CardType[] = [];
-		let foundCard: CardType | undefined = undefined;
+		deleteCardFromArray: (cardId, array) => {
+			const filteredArray: CardType[] = [];
+			let foundCard: CardType | undefined = undefined;
 
-		for (const arrayCard of array) {
-			if (arrayCard.id === cardId) {
-				foundCard = arrayCard;
-				continue;
+			for (const arrayCard of array) {
+				if (arrayCard.id === cardId) {
+					foundCard = arrayCard;
+					continue;
+				}
+				filteredArray.push(arrayCard);
 			}
-			filteredArray.push(arrayCard);
-		}
 
-		if (!foundCard) throw new Error(`Card with id ${cardId} not found in array`);
+			if (!foundCard) throw new Error(`Card with id ${cardId} not found in array`);
 
-		return [foundCard, filteredArray];
-	},
+			return [foundCard, filteredArray];
+		},
 
-	findLowestSuit: (cards, suit) => {
-		let lowestSuitCard: CardType | undefined = undefined;
+		findLowestSuit: (cards, suit) => {
+			let lowestSuitCard: CardType | undefined = undefined;
 
-		for (const card of cards) {
-			if (card.suit === suit) {
-				if (!lowestSuitCard || card.power < lowestSuitCard.power) {
-					lowestSuitCard = card;
+			for (const card of cards) {
+				if (card.suit === suit) {
+					if (!lowestSuitCard || card.power < lowestSuitCard.power) {
+						lowestSuitCard = card;
+					}
 				}
 			}
-		}
 
-		return lowestSuitCard;
-	},
+			return lowestSuitCard;
+		},
 
-	getLowestNonTrump: (cards, trumpSuit) => {
-		const nonTrumpCards = cards.filter(card => card.suit !== trumpSuit);
+		getHighestNonTrump: (cards, trumpSuit) => {
+			const nonTrumpCards = cards.filter(card => card.suit !== trumpSuit);
 
-		if (nonTrumpCards.length === 0) return;
+			if (nonTrumpCards.length === 0) return;
 
-		let min = nonTrumpCards[0];
+			let max = nonTrumpCards[0];
 
-		for (const card of nonTrumpCards) {
-			if (card.power < min.power) min = card;
-		}
+			for (const card of nonTrumpCards) {
+				if (card.power > max.power) max = card;
+			}
 
-		return min;
-	},
+			return max;
+		},
 
-	getLowestCard: (cards, trumpSuit) => {
-		const nonTrumpMin = CardService.getLowestNonTrump(cards, trumpSuit);
 
-		if (nonTrumpMin) return nonTrumpMin;
+		getLowestNonTrump: (cards, trumpSuit) => {
+			const nonTrumpCards = cards.filter(card => card.suit !== trumpSuit);
 
-		let min: CardType = cards[0];
+			if (nonTrumpCards.length === 0) return;
 
-		for (const card of cards) {
-			if (card.power < min.power) min = card;
-		}
+			let min = nonTrumpCards[0];
 
-		return min;
-	},
+			for (const card of nonTrumpCards) {
+				if (card.power < min.power) min = card;
+			}
 
-	findCardById: (cards, id) => {
-		const card = cards.find((cardel) => cardel.id === id);
+			return min;
+		},
 
-		if (!card) throw new Error(`Card ${id} not found`);
+		getHighestCard: (cards, trumpSuit) => {
+			const nonTrumpMax = CardService.getHighestNonTrump(cards, trumpSuit);
 
-		return card;
-	},
+			if (nonTrumpMax) return nonTrumpMax;
 
-	getUniqCardValues: (cards) => {
-		const values = new Set<number>();
+			let max: CardType = cards[0];
 
-		cards.forEach((card) => {
-			if (card) values.add(card.power);
-		});
+			for (const card of cards) {
+				if (card.power > max.power) max = card;
+			}
 
-		return Array.from(values);
-	},
+			return max;
+		},
 
-	sortCards: (cards, trumpSuit) => {
-		[...cards].sort((a, b) => b.power - a.power);
+		getLowestCard: (cards, trumpSuit) => {
+			const nonTrumpMin = CardService.getLowestNonTrump(cards, trumpSuit);
 
-		const trumpCards = cards.filter((card) => card.suit === trumpSuit);
-		const notTrumpCards = cards.filter((card) => card.suit !== trumpSuit);
+			if (nonTrumpMin) return nonTrumpMin;
 
-		return [...trumpCards, ...notTrumpCards];
-	},
-}
+			let min: CardType = cards[0];
+
+			for (const card of cards) {
+				if (card.power < min.power) min = card;
+			}
+
+			return min;
+		},
+
+		findCardById: (cards, id) => {
+			const card = cards.find((cardel) => cardel.id === id);
+
+			if (!card) throw new Error(`Card ${id} not found`);
+
+			return card;
+		},
+
+		getUniqCardValues: (cards) => {
+			const values = new Set<number>();
+
+			cards.forEach((card) => {
+				if (card) values.add(card.power);
+			});
+
+			return Array.from(values);
+		},
+
+		sortCards: (cards, trumpSuit) => {
+			const sorted = [...cards].sort((a, b) => b.power - a.power);
+
+			const trumpCards = sorted.filter((card) => card.suit === trumpSuit);
+			const notTrumpCards = sorted.filter((card) => card.suit !== trumpSuit);
+
+			return [...trumpCards, ...notTrumpCards];
+		},
+	}
 ;
 
 export default CardService;

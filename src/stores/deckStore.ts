@@ -3,7 +3,7 @@ import type DeckStoreType from '@/types/store/DeckStoreType.ts';
 
 const INIT_STORE = {
 	deck: [],
-	trumpCard: null,
+	trumpCard: undefined,
 };
 
 const useDeckStore = create<DeckStoreType>((set, get) => ({
@@ -11,7 +11,6 @@ const useDeckStore = create<DeckStoreType>((set, get) => ({
 	updateDeck: (deck) => set(() => ({ deck: deck })),
 	takeCard: () => {
 		const currentDeck = get().deck;
-		if (!currentDeck) return;
 
 		const takenCard = currentDeck[0];
 		set({ deck: currentDeck.slice(1) });
@@ -19,7 +18,6 @@ const useDeckStore = create<DeckStoreType>((set, get) => ({
 	},
 	takeCards: (count) => {
 		const currentDeck = get().deck;
-		if (!currentDeck || count > currentDeck.length) return;
 
 		const takenCards = currentDeck.slice(0, count);
 		set({ deck: currentDeck.slice(count) });

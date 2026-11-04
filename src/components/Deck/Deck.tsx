@@ -6,7 +6,7 @@ import { useDeck } from '@/stores/deckStore.ts';
 import DeckCards from '@/components/Deck/DeckCards.tsx';
 import TrumpCard from '@/components/Deck/TrumpCard.tsx';
 
-import type { Card as CardType, CardId } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
 const Deck = () => {
 	const deck: CardId[] = useDeck();

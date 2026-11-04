@@ -6,7 +6,7 @@ import { useFall } from '@/stores/fallStore.ts';
 import NullCard from '@/ui/NullCard.tsx';
 import Card from '@/ui/Card.tsx';
 
-import type { Card as CardType, CardId } from '@/types/GameTypes.ts';
+import type { CardId } from '@/types/GameTypes.ts';
 
 const Fall = () => {
 	const fall: CardId[] = useFall();

@@ -12,17 +12,13 @@ const CardDatabase: ICardDatabase = {
 	},
 
 	getCurrent: () => {
-		if (!currentDatabase) {
-			currentDatabase = CardDatabase.getCardsDatabase(36);
-		}
+		if (!currentDatabase) currentDatabase = CardDatabase.getCardsDatabase(36);
 
 		return currentDatabase;
 	},
 
 	getCurrentIds: (): CardId[] => {
-		if (!currentDatabase) {
-			currentDatabase = CardDatabase.getCardsDatabase(36);
-		}
+		if (!currentDatabase) currentDatabase = CardDatabase.getCardsDatabase(36);
 
 		return [...currentDatabase.keys()];
 	},
@@ -42,14 +38,14 @@ const CardDatabase: ICardDatabase = {
 		const color = suit[0] === 'C' || suit[0] === 'S' ? 'black' : 'red';
 		const power = CARDS_COUNT_VALUES[cardsCount].indexOf(value) + 2;
 
-		return <CardType>{
+		return {
 			id: CardDatabase.buildId(value, suit),
 			imgPath: CardDatabase.getPath(value, suit),
 			name: `${value} ${suit}`,
 			color: color,
 			power: power,
 			suit: suit,
-		};
+		} as CardType;
 	},
 
 	createCardsDatabase: (cardsCount) => {
@@ -89,7 +85,7 @@ const CardDatabase: ICardDatabase = {
 
 		const card = CardDatabase.getCurrent().get(cardId);
 
-		if (!card) throw new Error(`Card ${cardId} not found`);
+		if (!card) return;
 
 		return card;
 	},
@@ -111,7 +107,7 @@ const CardDatabase: ICardDatabase = {
 		const cards: CardType[] = [];
 
 		for (const id of cardIds) {
-			const card = CardDatabase.getCardById(id);
+			const card = CardDatabase.tryGetCardById(id);
 			if (card) cards.push(card);
 		}
 

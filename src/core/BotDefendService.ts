@@ -4,17 +4,18 @@ import CardService from '@/core/CardService.ts';
 
 import { IBotDefendService } from '@/types/core/IBotDefendService.ts';
 import type { PossibleMoves, Card as CardType } from '@/types/GameTypes.ts';
+import BotDefendStrategy from '@/core/BotDefendStrategy.ts';
 
 const BotDefendService: IBotDefendService = {
 
 	defend: (aiMode, gameData) => {
-		const { hand, table, trumpSuit } = gameData;
+		const { hand, table, trumpCard } = gameData;
 
-		if (!hand || !table || !trumpSuit) throw Error(`gameData wrong!`);
+		if (!hand || !table || !trumpCard) throw Error(`gameData wrong!`);
 
 		const unbeatenCards: CardType[] = TableService.getUnbeatenCards(table);
 
-		const possibleMoves = BotDefendService.findPossibleDefendMoves(unbeatenCards, hand, trumpSuit);
+		const possibleMoves = BotDefendService.findPossibleDefendMoves(unbeatenCards, hand, trumpCard.suit);
 
 		if (!possibleMoves) return;
 
@@ -23,6 +24,8 @@ const BotDefendService: IBotDefendService = {
 				return BotDefendService.foolDefend(possibleMoves, gameData);
 			case 'easy':
 				return BotDefendService.easyDefend(possibleMoves, gameData);
+			case 'medium':
+				return BotDefendService.mediumDefend(possibleMoves, gameData);
 			default:
 				return BotDefendService.foolDefend(possibleMoves, gameData);
 		}
@@ -49,11 +52,17 @@ const BotDefendService: IBotDefendService = {
 	},
 
 	foolDefend: (possibleMoves, { hand }) => {
-		const [chosenAttackCardId, defendCardIds] = Random.getArrayElem<[string, string[]]>(
+		const randomPossibleMoves = Random.getArrayElem<[string, string[]]>(
 			Object.entries(possibleMoves),
 		);
 
-		const chosenDefendCard = CardService.findCardById(hand, Random.getArrayElem<string>(defendCardIds));
+		if (!randomPossibleMoves) return undefined;
+
+		const [chosenAttackCardId, defendCardIds] = randomPossibleMoves;
+
+		const randomDefendId = Random.getArrayElem<string>(defendCardIds);
+		if (!randomDefendId) return undefined;
+		const chosenDefendCard = CardService.findCardById(hand, randomDefendId);
 
 		return {
 			...chosenDefendCard,
@@ -61,20 +70,34 @@ const BotDefendService: IBotDefendService = {
 		};
 	},
 
-	easyDefend: (possibleMoves, { hand, trumpSuit }) => {
-		const [chosenAttackCardId, defendCards] = Random.getArrayElem(
+	easyDefend: (possibleMoves, { hand, trumpCard }) => {
+		const randomPossibleMoves = Random.getArrayElem<[string, string[]]>(
 			Object.entries(possibleMoves),
 		);
 
+		if (!randomPossibleMoves) return undefined;
+
+		const [chosenAttackCardId, defendCardIds] = randomPossibleMoves;
+
 		const chosenDefendCard = CardService.getLowestCard(
-			defendCards.map(cardId => CardService.findCardById(hand, cardId)),
-			trumpSuit
+			defendCardIds.map(cardId => CardService.findCardById(hand, cardId)),
+			trumpCard.suit,
 		);
 
 		return {
 			...chosenDefendCard,
 			attackCardId: chosenAttackCardId,
 		};
+	},
+
+	mediumDefend: (possibleMoves, gameData) => {
+		const { hand, table } = gameData;
+
+		if (BotDefendStrategy.shouldTakeTable(hand, table, possibleMoves, gameData)) {
+			return undefined;  // взять
+		}
+
+		return BotDefendStrategy.chooseDefendCard(possibleMoves, gameData);
 	},
 };
 

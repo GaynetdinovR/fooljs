@@ -32,7 +32,7 @@ const PlayerService: IPlayerService = {
 		if (humanLowestTrump) return 'human';
 		if (botLowestTrump) return 'bot';
 
-		return Random.getArrayElem<Players>(PLAYERS);
+		return Random.getArrayElemStrict<Players>(PLAYERS);
 	},
 
 	getAnotherPlayer: (currentPlayer: Players): Players => {

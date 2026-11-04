@@ -5,7 +5,7 @@ import PlayerControlsProvider from '@/ui/PlayerControlsProvider.tsx';
 
 import './styles/styles.sass';
 
-const root = document.getElementById('root');
+const root = document.getElementById('root')!;
 
 createRoot(root).render(
 	<StrictMode>

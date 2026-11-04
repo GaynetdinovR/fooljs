@@ -8,7 +8,9 @@ import CardDatabase from '@/core/CardDatabase.ts';
 
 const TrumpCard = () => {
 	const deck: CardId[] = useDeck();
-	const trumpCard: CardId = useTrumpCard();
+	const trumpCard: CardId | undefined = useTrumpCard();
+
+	if(!trumpCard) return;
 
 	const trumpCardObject = CardDatabase.tryGetCardById(trumpCard);
 

@@ -1,11 +1,11 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import useGameStore from '@/stores/gameStore.ts';
 import { useTable } from '@/stores/tableStore.ts';
 
 import useGameConditions from '@/hooks/useGameConditions.ts';
 
-import { PlayerControlsContext } from '@/ui/PlayerControlsContext.tsx';
+import { usePlayerControls } from '@/ui/PlayerControlsContext.tsx';
 
 import type { TableCardPair } from '@/types/store/TableStoreType.ts';
 
@@ -18,7 +18,7 @@ const PlayerController = () => {
 	const { isTableEmpty, isTableBeaten } = useGameConditions();
 
 	const { setMoveToFallDisabled, setRaiseDisabled, setEndMoveDisabled } =
-		useContext(PlayerControlsContext);
+		usePlayerControls();
 
 	useEffect(() => {
 		if (status === 'bot-raising') {

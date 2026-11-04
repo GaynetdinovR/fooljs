@@ -1,11 +1,11 @@
-import { Players } from '@/types/GameTypes.ts';
+import { CardId, Players } from '@/types/GameTypes.ts';
 
 export type Move = {
 	moveNumber: number,
 	player: Players,
-	cardIds: string[],
+	cardIds: CardId[],
 	action: 'defend' | 'attack' | 'raise'
-	attackCardId?: string
+	attackCardId?: CardId
 }
 
 interface MoveHistoryState {
